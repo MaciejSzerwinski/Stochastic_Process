@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.4.4)  24 APR 2023 02:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.4.4)  16 MAY 2023 01:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**g:/Projekty/Procesy_stochastyczne/main.tex
-(g:/Projekty/Procesy_stochastyczne/main.tex
+**g:/Projekty/Stochastic_Process/main.tex
+(g:/Projekty/Stochastic_Process/main.tex
 LaTeX2e <2022-11-01> patch level 1
 L3 programming layer <2023-02-22> (C:\Program Files\MiKTeX\tex/latex/base\article.cls
 Document Class: article 2022/07/02 v1.4n Standard LaTeX document class
@@ -1140,7 +1140,7 @@ File: t1cmtt.fd 2022/07/10 v2.5l Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 444.
-LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 483.
+LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 486.
  (C:\Program Files\MiKTeX\tex/latex/base\ts1cmtt.fd
 File: ts1cmtt.fd 2022/07/10 v2.5l Standard LaTeX font definitions
 ) [1
@@ -1149,139 +1149,394 @@ File: ts1cmtt.fd 2022/07/10 v2.5l Standard LaTeX font definitions
 <main_files/main_6_0.png, id=37, 1292.83pt x 853.1875pt>
 File: main_files/main_6_0.png Graphic file (type png)
 <use main_files/main_6_0.png>
-Package pdftex.def Info: main_files/main_6_0.png  used on input line 504.
+Package pdftex.def Info: main_files/main_6_0.png  used on input line 507.
 (pdftex.def)             Requested size: 1292.82686pt x 853.18542pt.
  [2]
-Underfull \hbox (badness 10000) in paragraph at lines 506--507
+Underfull \hbox (badness 10000) in paragraph at lines 509--510
 
  []
 
-LaTeX Font Info:    Trying to load font information for LGR+cmtt on input line 535.
+LaTeX Font Info:    Trying to load font information for LGR+cmtt on input line 538.
 (C:\Program Files\MiKTeX\tex/latex/cbfonts-fd\lgrcmtt.fd
 File: lgrcmtt.fd 2017/07/29 v1.2 Greek European Computer Typewriter
 ) [3 <./main_files/main_6_0.png>]
-<main_files/main_11_0.png, id=54, 1292.83pt x 853.1875pt>
+<main_files/main_11_0.png, id=54, 859.21pt x 711.65875pt>
 File: main_files/main_11_0.png Graphic file (type png)
 <use main_files/main_11_0.png>
-Package pdftex.def Info: main_files/main_11_0.png  used on input line 566.
-(pdftex.def)             Requested size: 1292.82686pt x 853.18542pt.
+Package pdftex.def Info: main_files/main_11_0.png  used on input line 569.
+(pdftex.def)             Requested size: 859.20792pt x 711.65701pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 568--569
+Underfull \hbox (badness 10000) in paragraph at lines 571--572
 
  []
 
-<main_files/main_13_0.png, id=55, 1292.83pt x 853.1875pt>
+[4 <./main_files/main_11_0.png>]
+<main_files/main_13_0.png, id=63, 858.20625pt x 711.65875pt>
 File: main_files/main_13_0.png Graphic file (type png)
 <use main_files/main_13_0.png>
-Package pdftex.def Info: main_files/main_13_0.png  used on input line 581.
-(pdftex.def)             Requested size: 1292.82686pt x 853.18542pt.
-[4 <./main_files/main_11_0.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 583--584
+Package pdftex.def Info: main_files/main_13_0.png  used on input line 584.
+(pdftex.def)             Requested size: 858.20416pt x 711.65701pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 586--587
 
  []
 
-<main_files/main_15_0.png, id=65, 1292.83pt x 853.1875pt>
+<main_files/main_15_0.png, id=64, 859.21pt x 711.65875pt>
 File: main_files/main_15_0.png Graphic file (type png)
 <use main_files/main_15_0.png>
-Package pdftex.def Info: main_files/main_15_0.png  used on input line 596.
-(pdftex.def)             Requested size: 1292.82686pt x 853.18542pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 598--599
+Package pdftex.def Info: main_files/main_15_0.png  used on input line 599.
+(pdftex.def)             Requested size: 859.20792pt x 711.65701pt.
+[5 <./main_files/main_13_0.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 601--602
 
  []
 
-[5 <./main_files/main_13_0.png> <./main_files/main_15_0.png>]
-<main_files/main_17_0.png, id=74, 1292.83pt x 853.1875pt>
+<main_files/main_17_0.png, id=73, 859.21pt x 711.65875pt>
 File: main_files/main_17_0.png Graphic file (type png)
 <use main_files/main_17_0.png>
-Package pdftex.def Info: main_files/main_17_0.png  used on input line 611.
-(pdftex.def)             Requested size: 1292.82686pt x 853.18542pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 613--614
+Package pdftex.def Info: main_files/main_17_0.png  used on input line 614.
+(pdftex.def)             Requested size: 859.20792pt x 711.65701pt.
+[6 <./main_files/main_15_0.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 616--617
 
  []
 
-<main_files/main_19_0.png, id=75, 1292.83pt x 853.1875pt>
+<main_files/main_19_0.png, id=81, 858.20625pt x 711.65875pt>
 File: main_files/main_19_0.png Graphic file (type png)
 <use main_files/main_19_0.png>
-Package pdftex.def Info: main_files/main_19_0.png  used on input line 626.
-(pdftex.def)             Requested size: 1292.82686pt x 853.18542pt.
-[6 <./main_files/main_17_0.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 628--629
+Package pdftex.def Info: main_files/main_19_0.png  used on input line 629.
+(pdftex.def)             Requested size: 858.20416pt x 711.65701pt.
+[7 <./main_files/main_17_0.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 631--632
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 650--653
+Underfull \hbox (badness 10000) in paragraph at lines 653--656
 \T1/cmr/m/n/10.95 https://stackoverflow.com/questions/71296986/how-to-draw-the-probability-density-function-pdf-
  []
 
-[7 <./main_files/main_19_0.png>]
-<main_files/main_23_0.png, id=101, 1437.37pt x 853.1875pt>
+[8 <./main_files/main_19_0.png>]
+<main_files/main_23_0.png, id=105, 1437.37pt x 853.1875pt>
 File: main_files/main_23_0.png Graphic file (type png)
 <use main_files/main_23_0.png>
-Package pdftex.def Info: main_files/main_23_0.png  used on input line 694.
+Package pdftex.def Info: main_files/main_23_0.png  used on input line 697.
 (pdftex.def)             Requested size: 1437.3665pt x 853.18542pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 696--697
+Underfull \hbox (badness 10000) in paragraph at lines 699--700
 
  []
 
-
-g:/Projekty/Procesy_stochastyczne/main.tex:704: LaTeX Error: Unicode character â‰¤ (U+2264)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.704 P(X â‰¤
-              x). Dystrybuanta moÅ¼e byÄ‡ uÅ¼yta do okreÅ›lenia takich warto...
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-[8 <./main_files/main_23_0.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 710--713
+[9 <./main_files/main_23_0.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 713--716
 []\T1/cmr/m/n/10.95 Podobnie jak dla obliczenia g¦s-to±ci praw-dopodobie«stwa na-jpierw
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 710--713
+Underfull \hbox (badness 10000) in paragraph at lines 713--716
 \T1/cmr/m/n/10.95 nale»aªo sko-rzys-ta¢ z posor-towanych wcze±niej danych w tabl-icy sam-ples
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 710--713
+Underfull \hbox (badness 10000) in paragraph at lines 713--716
 \T1/cmr/m/n/10.95 https://stackoverflow.com/questions/24788200/calculate-the-cumulative-distribution-function-
  []
 
-<main_files/main_26_0.png, id=108, 1437.37pt x 853.1875pt>
+<main_files/main_26_0.png, id=111, 1437.37pt x 853.1875pt>
 File: main_files/main_26_0.png Graphic file (type png)
 <use main_files/main_26_0.png>
-Package pdftex.def Info: main_files/main_26_0.png  used on input line 754.
+Package pdftex.def Info: main_files/main_26_0.png  used on input line 757.
 (pdftex.def)             Requested size: 1437.3665pt x 853.18542pt.
-[9]
-Underfull \hbox (badness 10000) in paragraph at lines 756--757
+[10]
+Underfull \hbox (badness 10000) in paragraph at lines 759--760
 
  []
 
 
-Underfull \hbox (badness 4217) in paragraph at lines 771--773
+Underfull \hbox (badness 4217) in paragraph at lines 774--776
 []\T1/cmr/m/n/10.95 Wytªumaczone na filmiku jak w pythonie oblicza¢ warto±¢ oczeki-wan¡ oraz wari-ancj¦
  []
 
-[10 <./main_files/main_26_0.png>] [11]
-<main_files/main_35_0.png, id=130, 1581.91pt x 853.1875pt>
+[11 <./main_files/main_26_0.png>]
+g:/Projekty/Stochastic_Process/main.tex:847: Missing $ inserted.
+<inserted text> 
+                $
+l.847     k^
+            (3) &            5.006774 &   0.010024 \\
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+g:/Projekty/Stochastic_Process/main.tex:847: Missing $ inserted.
+<inserted text> 
+                $
+l.847     k^(3) &
+                             5.006774 &   0.010024 \\
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+g:/Projekty/Stochastic_Process/main.tex:848: Missing $ inserted.
+<inserted text> 
+                $
+l.848     k^
+            (4) &            4.999867 &   0.010008 \\
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+g:/Projekty/Stochastic_Process/main.tex:848: Missing $ inserted.
+<inserted text> 
+                $
+l.848     k^(4) &
+                             4.999867 &   0.010008 \\
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+g:/Projekty/Stochastic_Process/main.tex:849: Missing $ inserted.
+<inserted text> 
+                $
+l.849     k^
+            (5) &            5.000415 &   0.010039 \\
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+g:/Projekty/Stochastic_Process/main.tex:849: Missing $ inserted.
+<inserted text> 
+                $
+l.849     k^(5) &
+                             5.000415 &   0.010039 \\
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+g:/Projekty/Stochastic_Process/main.tex:850: Missing $ inserted.
+<inserted text> 
+                $
+l.850     k^
+            (6) &            5.000057 &   0.009997 \\
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+g:/Projekty/Stochastic_Process/main.tex:850: Missing $ inserted.
+<inserted text> 
+                $
+l.850     k^(6) &
+                             5.000057 &   0.009997 \\
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+g:/Projekty/Stochastic_Process/main.tex:851: Missing $ inserted.
+<inserted text> 
+                $
+l.851     k^
+            (7) &            5.000018 &   0.010000 \\
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+g:/Projekty/Stochastic_Process/main.tex:851: Missing $ inserted.
+<inserted text> 
+                $
+l.851     k^(7) &
+                             5.000018 &   0.010000 \\
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+[12]
+<main_files/main_35_0.png, id=132, 1581.91pt x 853.1875pt>
 File: main_files/main_35_0.png Graphic file (type png)
 <use main_files/main_35_0.png>
-Package pdftex.def Info: main_files/main_35_0.png  used on input line 899.
+Package pdftex.def Info: main_files/main_35_0.png  used on input line 916.
 (pdftex.def)             Requested size: 1581.90616pt x 853.18542pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 901--902
+ [13]
+Underfull \hbox (badness 10000) in paragraph at lines 918--919
 
  []
 
-[12 <./main_files/main_35_0.png>] [13] (main.aux)
+[14 <./main_files/main_35_0.png>]
+<main_files/main_40_0.png, id=149, 580.1675pt x 570.13pt>
+File: main_files/main_40_0.png Graphic file (type png)
+<use main_files/main_40_0.png>
+Package pdftex.def Info: main_files/main_40_0.png  used on input line 988.
+(pdftex.def)             Requested size: 580.16606pt x 570.12862pt.
+ [15]
+Underfull \hbox (badness 10000) in paragraph at lines 990--991
+
+ []
+
+<main_files/main_42_0.png, id=158, 580.1675pt x 573.14125pt>
+File: main_files/main_42_0.png Graphic file (type png)
+<use main_files/main_42_0.png>
+Package pdftex.def Info: main_files/main_42_0.png  used on input line 1003.
+(pdftex.def)             Requested size: 580.16606pt x 573.13985pt.
+[16 <./main_files/main_40_0.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1005--1006
+
+ []
+
+<main_files/main_44_0.png, id=166, 580.1675pt x 570.13pt>
+File: main_files/main_44_0.png Graphic file (type png)
+<use main_files/main_44_0.png>
+Package pdftex.def Info: main_files/main_44_0.png  used on input line 1018.
+(pdftex.def)             Requested size: 580.16606pt x 570.12862pt.
+[17 <./main_files/main_42_0.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1020--1021
+
+ []
+
+<main_files/main_47_0.png, id=174, 580.1675pt x 573.14125pt>
+File: main_files/main_47_0.png Graphic file (type png)
+<use main_files/main_47_0.png>
+Package pdftex.def Info: main_files/main_47_0.png  used on input line 1036.
+(pdftex.def)             Requested size: 580.16606pt x 573.13985pt.
+[18 <./main_files/main_44_0.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1038--1039
+
+ []
+
+<main_files/main_49_0.png, id=184, 580.1675pt x 572.1375pt>
+File: main_files/main_49_0.png Graphic file (type png)
+<use main_files/main_49_0.png>
+Package pdftex.def Info: main_files/main_49_0.png  used on input line 1051.
+(pdftex.def)             Requested size: 580.16606pt x 572.1361pt.
+[19 <./main_files/main_47_0.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1053--1054
+
+ []
+
+<main_files/main_51_0.png, id=193, 580.1675pt x 570.13pt>
+File: main_files/main_51_0.png Graphic file (type png)
+<use main_files/main_51_0.png>
+Package pdftex.def Info: main_files/main_51_0.png  used on input line 1066.
+(pdftex.def)             Requested size: 580.16606pt x 570.12862pt.
+[20 <./main_files/main_49_0.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1068--1069
+
+ []
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{fcutoff500}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1074 \paragraph{fcutoff=500}\label{fcutoff500}}
+                                                 
+<main_files/main_54_0.png, id=201, 580.1675pt x 570.13pt>
+File: main_files/main_54_0.png Graphic file (type png)
+<use main_files/main_54_0.png>
+Package pdftex.def Info: main_files/main_54_0.png  used on input line 1084.
+(pdftex.def)             Requested size: 580.16606pt x 570.12862pt.
+ [21 <./main_files/main_51_0.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1086--1087
+
+ []
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{fcutoff1500}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1089 ...agraph{fcutoff=1500}\label{fcutoff1500}}
+                                                  
+<main_files/main_56_0.png, id=210, 580.1675pt x 570.13pt>
+File: main_files/main_56_0.png Graphic file (type png)
+<use main_files/main_56_0.png>
+Package pdftex.def Info: main_files/main_56_0.png  used on input line 1099.
+(pdftex.def)             Requested size: 580.16606pt x 570.12862pt.
+ [22 <./main_files/main_54_0.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1101--1102
+
+ []
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{fcutoff2400}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1104 ...agraph{fcutoff=2400}\label{fcutoff2400}}
+                                                  
+<main_files/main_58_0.png, id=217, 580.1675pt x 570.13pt>
+File: main_files/main_58_0.png Graphic file (type png)
+<use main_files/main_58_0.png>
+Package pdftex.def Info: main_files/main_58_0.png  used on input line 1114.
+(pdftex.def)             Requested size: 580.16606pt x 570.12862pt.
+ [23 <./main_files/main_56_0.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1116--1117
+
+ []
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{fcutoff500}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1122 \paragraph{fcutoff=500}\label{fcutoff500}}
+                                                 
+<main_files/main_61_0.png, id=224, 580.1675pt x 570.13pt>
+File: main_files/main_61_0.png Graphic file (type png)
+<use main_files/main_61_0.png>
+Package pdftex.def Info: main_files/main_61_0.png  used on input line 1132.
+(pdftex.def)             Requested size: 580.16606pt x 570.12862pt.
+ [24 <./main_files/main_58_0.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1134--1135
+
+ []
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{fcutoff1500}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1137 ...agraph{fcutoff=1500}\label{fcutoff1500}}
+                                                  
+<main_files/main_63_0.png, id=233, 580.1675pt x 570.13pt>
+File: main_files/main_63_0.png Graphic file (type png)
+<use main_files/main_63_0.png>
+Package pdftex.def Info: main_files/main_63_0.png  used on input line 1147.
+(pdftex.def)             Requested size: 580.16606pt x 570.12862pt.
+ [25 <./main_files/main_61_0.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1149--1150
+
+ []
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{fcutoff2400}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1152 ...agraph{fcutoff=2400}\label{fcutoff2400}}
+                                                  
+<main_files/main_65_0.png, id=241, 570.13pt x 570.13pt>
+File: main_files/main_65_0.png Graphic file (type png)
+<use main_files/main_65_0.png>
+Package pdftex.def Info: main_files/main_65_0.png  used on input line 1162.
+(pdftex.def)             Requested size: 570.12862pt x 570.12862pt.
+ [26 <./main_files/main_63_0.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1164--1165
+
+ []
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{fcutoff500}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1170 \paragraph{fcutoff=500}\label{fcutoff500}}
+                                                 
+pdfTeX warning (ext4): destination with the same identifier (name{fcutoff1500}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1180 ...agraph{fcutoff=1500}\label{fcutoff1500}}
+                                                  
+pdfTeX warning (ext4): destination with the same identifier (name{fcutoff2400}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1190 ...agraph{fcutoff=2400}\label{fcutoff2400}}
+                                                   [27 <./main_files/main_65_0.png>] (main.aux)
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
@@ -1292,20 +1547,20 @@ Package rerunfilecheck Warning: File `main.out' has changed.
 
 Package rerunfilecheck Info: Checksums for `main.out':
 (rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  A3EFEB47394771E6B227A0FD23F2A561;3855.
+(rerunfilecheck)             After:  F3D80052B64E496AC86D3C34C4C0A7BA;5067.
  ) 
 Here is how much of TeX's memory you used:
- 27099 strings out of 476334
- 501560 string characters out of 5797787
- 1890382 words of memory out of 5000000
- 46988 multiletter control sequences out of 15000+600000
+ 27257 strings out of 476334
+ 504886 string characters out of 5797787
+ 1898382 words of memory out of 5000000
+ 47087 multiletter control sequences out of 15000+600000
  528328 words of font info for 78 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 101i,7n,104p,777b,744s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 101i,7n,104p,774b,744s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\maszy\AppData\Local\MiKTeX\fonts/pk/ljfour/public/cbgreek/dpi600\grmn1095.pk> <C:\Users\maszy\AppData\Local\MiKTeX\fonts/pk/ljfour/public/cbgreek/dpi600\gttn1095.pk> <C:\Users\maszy\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tctt1095.pk> <C:\Users\maszy\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecit1095.pk> <C:\Users\maszy\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\maszy\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1095.pk> <C:\Users\maszy\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\maszy\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\maszy\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\maszy\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\maszy\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1728.pk><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on main.pdf (13 pages, 672063 bytes).
+Output written on main.pdf (27 pages, 1254211 bytes).
 PDF statistics:
- 555 PDF objects out of 1000 (max. 8388607)
- 56 named destinations out of 1000 (max. 500000)
- 58 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 719 PDF objects out of 1000 (max. 8388607)
+ 103 named destinations out of 1000 (max. 500000)
+ 118 words of extra memory for PDF output out of 10000 (max. 10000000)
 

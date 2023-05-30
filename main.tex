@@ -439,12 +439,15 @@ analiza}\label{symulacja-ciux105guxf3w-pseudolosowych-ich-filtracja-i-analiza}}
 bibliotek}\label{importowanie-potrzebnych-bibliotek}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{1}{\boxspacing}
+\prompt{In}{incolor}{55}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
 \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
 \PY{k+kn}{from} \PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{stats} \PY{k+kn}{import} \PY{n}{norm}\PY{p}{,} \PY{n}{describe}
+\PY{k+kn}{from} \PY{n+nn}{scipy} \PY{k+kn}{import} \PY{n}{signal}
 \PY{k+kn}{import} \PY{n+nn}{pandas}  \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k+kn}{import} \PY{n}{display}\PY{p}{,} \PY{n}{Latex}
+\PY{k+kn}{from} \PY{n+nn}{tabulate} \PY{k+kn}{import} \PY{n}{tabulate}
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -457,7 +460,7 @@ bibliotek}\label{importowanie-potrzebnych-bibliotek}}
 Gassowskim}\label{wytworzenie-szumu-biaux142ego-o-rozkux142adzie-gassowskim}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{2}{\boxspacing}
+\prompt{In}{incolor}{56}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{}Default parameters to describe white noise}
 \PY{n}{mu} \PY{o}{=} \PY{l+m+mi}{5}
@@ -521,7 +524,7 @@ Gaussowskim dla róznych
 k}\label{wyux15bwietlenie-histogramu-szumu-biaux142ego-o-charakterze-gaussowskim-dla-ruxf3znych-k}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{3}{\boxspacing}
+\prompt{In}{incolor}{57}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{k}{def} \PY{n+nf}{display\PYZus{}hist}\PY{p}{(}\PY{n}{samples}\PY{p}{,} \PY{n}{k}\PY{p}{)}\PY{p}{:}
     \PY{n}{delta\PYZus{}x\PYZus{}1}\PY{o}{=}\PY{l+m+mi}{1}
@@ -530,8 +533,8 @@ k}\label{wyux15bwietlenie-histogramu-szumu-biaux142ego-o-charakterze-gaussowskim
     \PY{n}{delta\PYZus{}x\PYZus{}4}\PY{o}{=}\PY{l+m+mf}{0.1}
 
     \PY{n}{fig}\PY{p}{,} \PY{n}{axarr} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
-    \PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figheight}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
-    \PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figwidth}\PY{p}{(}\PY{l+m+mi}{18}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figheight}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figwidth}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
     \PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Histogram szumu białego z różną wartością Δx dla k=}\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{k}\PY{p}{)}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
 
     \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{samples}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{n+nb}{int}\PY{p}{(}\PY{l+m+mi}{6}\PY{o}{/}\PY{n}{delta\PYZus{}x\PYZus{}1}\PY{p}{)}\PY{p}{)}
@@ -556,7 +559,7 @@ k}\label{wyux15bwietlenie-histogramu-szumu-biaux142ego-o-charakterze-gaussowskim
 \paragraph{k=10\^{}(3)}\label{k103}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{4}{\boxspacing}
+\prompt{In}{incolor}{58}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{k\PYZus{}1}\PY{p}{)}
 \end{Verbatim}
@@ -571,7 +574,7 @@ k}\label{wyux15bwietlenie-histogramu-szumu-biaux142ego-o-charakterze-gaussowskim
 \paragraph{k=10\^{}(4)}\label{k104}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{5}{\boxspacing}
+\prompt{In}{incolor}{59}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{,} \PY{n}{k\PYZus{}2}\PY{p}{)}
 \end{Verbatim}
@@ -586,7 +589,7 @@ k}\label{wyux15bwietlenie-histogramu-szumu-biaux142ego-o-charakterze-gaussowskim
 \paragraph{k=10\^{}(5)}\label{k105}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{6}{\boxspacing}
+\prompt{In}{incolor}{60}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{n}{k\PYZus{}3}\PY{p}{)}
 \end{Verbatim}
@@ -601,7 +604,7 @@ k}\label{wyux15bwietlenie-histogramu-szumu-biaux142ego-o-charakterze-gaussowskim
 \paragraph{k=10\^{}(6)}\label{k106}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{7}{\boxspacing}
+\prompt{In}{incolor}{61}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{n}{k\PYZus{}4}\PY{p}{)}
 \end{Verbatim}
@@ -616,7 +619,7 @@ k}\label{wyux15bwietlenie-histogramu-szumu-biaux142ego-o-charakterze-gaussowskim
 \paragraph{k=10\^{}(7)}\label{k107}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{8}{\boxspacing}
+\prompt{In}{incolor}{62}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{,} \PY{n}{k\PYZus{}5}\PY{p}{)}
 \end{Verbatim}
@@ -652,7 +655,7 @@ najpierw tablicę. Wytłumaczenie w linku poniżej\\
 https://stackoverflow.com/questions/71296986/how-to-draw-the-probability-density-function-pdf-plot-in-python
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{9}{\boxspacing}
+\prompt{In}{incolor}{63}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{k}{def} \PY{n+nf}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples}\PY{p}{)}\PY{p}{:}
     \PY{n}{sort\PYZus{}samples} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples}\PY{p}{)}
@@ -662,7 +665,7 @@ https://stackoverflow.com/questions/71296986/how-to-draw-the-probability-density
 \end{tcolorbox}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{10}{\boxspacing}
+\prompt{In}{incolor}{64}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{fig}\PY{p}{,} \PY{n}{axarr} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figheight}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
@@ -701,9 +704,9 @@ https://stackoverflow.com/questions/71296986/how-to-draw-the-probability-density
 Dystrybuanta - (ang. cumulative distribution function) to funkcja
 matematyczna, która określa prawdopodobieństwo, że losowo wybrana
 zmienna losowa X jest mniejsza lub równa danej wartości x, tzn. F(x) =
-P(X ≤ x). Dystrybuanta może być użyta do określenia takich wartości jak
-kwantyle (np. mediana) oraz do badania asymetrii i ogona rozkładu
-zmiennej losowej.
+P(X \(\leq\) x). Dystrybuanta może być użyta do określenia takich
+wartości jak kwantyle (np. mediana) oraz do badania asymetrii i ogona
+rozkładu zmiennej losowej.
 
 \[ F(x) = \frac{1}{2}\left[1 + \operatorname{erf}\left(\frac{x-\mu}{\sigma\sqrt{2}}\right)\right] \]
 
@@ -712,7 +715,7 @@ należało skorzystać z posortowanych wcześniej danych w tablicy samples
 https://stackoverflow.com/questions/24788200/calculate-the-cumulative-distribution-function-cdf-in-python
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{11}{\boxspacing}
+\prompt{In}{incolor}{65}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{k}{def} \PY{n+nf}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples}\PY{p}{)}\PY{p}{:}
     \PY{n}{sort\PYZus{}samples} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples}\PY{p}{)}
@@ -722,7 +725,7 @@ https://stackoverflow.com/questions/24788200/calculate-the-cumulative-distributi
 \end{tcolorbox}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{12}{\boxspacing}
+\prompt{In}{incolor}{66}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{fig}\PY{p}{,} \PY{n}{axarr} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figheight}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
@@ -772,7 +775,7 @@ Wytłumaczone na filmiku jak w pythonie obliczać wartość oczekiwaną oraz
 wariancję https://www.youtube.com/watch?v=ikcUBqELZVU
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{13}{\boxspacing}
+\prompt{In}{incolor}{67}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(3)}
 \PY{n}{expected\PYZus{}value\PYZus{}k1} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
@@ -807,7 +810,7 @@ wariancji i wyraża się w tych samych jednostkach co zmienna losowa.
 \[ \operatorname{Var}(X) = E\left[(X - E(X))^2\right] = \int_{-\infty}^{\infty} (x - E(X))^2 f(x) dx \]
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{14}{\boxspacing}
+\prompt{In}{incolor}{68}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(3)}
 \PY{n}{variance\PYZus{}k1} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
@@ -826,24 +829,38 @@ wariancji i wyraża się w tych samych jednostkach co zmienna losowa.
 różnych k
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{15}{\boxspacing}
+\prompt{In}{incolor}{104}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n+nb}{dict} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZca{}(3)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZca{}(4)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZca{}(5)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZca{}(6)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZca{}(7)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{wartość oczekiwana}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{p}{[}\PY{n}{expected\PYZus{}value\PYZus{}k1}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k2}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k3}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k4}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k5}\PY{p}{]}\PY{p}{,}
         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{wariancja}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{p}{[}\PY{n}{variance\PYZus{}k1}\PY{p}{,} \PY{n}{variance\PYZus{}k2}\PY{p}{,} \PY{n}{variance\PYZus{}k3}\PY{p}{,} \PY{n}{variance\PYZus{}k4}\PY{p}{,} \PY{n}{variance\PYZus{}k5}\PY{p}{]}\PY{p}{\PYZcb{}}
 \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n+nb}{dict}\PY{p}{)}
 
-\PY{n}{df}\PY{o}{.}\PY{n}{style}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{to\PYZus{}latex}\PY{p}{(} \PY{n}{index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
-            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
-\prompt{Out}{outcolor}{15}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-<pandas.io.formats.style.Styler at 0x2b48bbf8940>
-\end{Verbatim}
-\end{tcolorbox}
-        
+\begin{tabular}{lrr}
+    \toprule
+        k &  wartość oczekiwana &  wariancja \\
+    \midrule
+    k^(3) &            5.006774 &   0.010024 \\
+    k^(4) &            4.999867 &   0.010008 \\
+    k^(5) &            5.000415 &   0.010039 \\
+    k^(6) &            5.000057 &   0.009997 \\
+    k^(7) &            5.000018 &   0.010000 \\
+    \bottomrule
+    \end{tabular}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}maszy\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Temp\textbackslash{}ipykernel\_16008\textbackslash{}3033685121.py:6:
+FutureWarning: In future versions `DataFrame.to\_latex` is expected to utilise
+the base implementation of `Styler.to\_latex` for formatting and rendering. The
+arguments signature may therefore change. It is recommended instead to use
+`DataFrame.style.to\_latex` which also contains additional functionality.
+  print(df.to\_latex( index=False))
+    \end{Verbatim}
+
     \hypertarget{obliczenie-funkcji-kowariancyjnej}{%
 \subsubsection{Obliczenie funkcji
 kowariancyjnej}\label{obliczenie-funkcji-kowariancyjnej}}
@@ -862,7 +879,7 @@ gdzie X\_i i X\_j to próbki szumu białego, a σ\^{}2 to wariancja szumu
 białego.
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{16}{\boxspacing}
+\prompt{In}{incolor}{70}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{k}{def} \PY{n+nf}{covariance}\PY{p}{(}\PY{n}{samples}\PY{p}{,} \PY{n}{k}\PY{p}{)}\PY{p}{:}
     \PY{c+c1}{\PYZsh{} Subtitute DC component noise signal from samples}
@@ -874,7 +891,7 @@ białego.
 \end{tcolorbox}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{28}{\boxspacing}
+\prompt{In}{incolor}{71}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{fig}\PY{p}{,} \PY{n}{axarr} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figheight}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
@@ -900,6 +917,285 @@ białego.
     \end{center}
     { \hspace*{\fill} \\}
     
+    \hypertarget{przeprowadziux107-filtracjux119-danych-z-wykorzystaniem-filtru-dolnoprzepustowego-fir-soj-o-ruxf3ux17cnych-parametrach}{%
+\subsection{3. Przeprowadzić filtrację danych z wykorzystaniem filtru
+dolnoprzepustowego FIR (SOJ) o różnych
+parametrach}\label{przeprowadziux107-filtracjux119-danych-z-wykorzystaniem-filtru-dolnoprzepustowego-fir-soj-o-ruxf3ux17cnych-parametrach}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{72}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{cutoff\PYZus{}param}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} definicja filtra dolnoprzepustowego FIR (SOJ) o różnych parametrach}
+    \PY{n}{filter1} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{firwin}\PY{p}{(}\PY{n}{numtaps}\PY{o}{=}\PY{l+m+mi}{11} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{cutoff}\PY{o}{=}\PY{n}{cutoff\PYZus{}param}\PY{p}{,} \PY{n}{window}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hamming}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fs}\PY{o}{=}\PY{l+m+mi}{5000}\PY{p}{)}
+    \PY{n}{filter2} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{firwin}\PY{p}{(}\PY{n}{numtaps}\PY{o}{=}\PY{l+m+mi}{31} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{cutoff}\PY{o}{=}\PY{n}{cutoff\PYZus{}param}\PY{p}{,} \PY{n}{window}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hamming}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fs}\PY{o}{=}\PY{l+m+mi}{5000}\PY{p}{)}
+    \PY{n}{filter3} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{firwin}\PY{p}{(}\PY{n}{numtaps}\PY{o}{=}\PY{l+m+mi}{51} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{cutoff}\PY{o}{=}\PY{n}{cutoff\PYZus{}param}\PY{p}{,} \PY{n}{window}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hamming}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fs}\PY{o}{=}\PY{l+m+mi}{5000}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} przeprowadzenie filtracji danych z wykorzystaniem filtrów}
+    \PY{n}{filtered1} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{convolve}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{filter1}\PY{p}{,} \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{same}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{filtered2} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{convolve}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{filter2}\PY{p}{,} \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{same}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{filtered3} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{convolve}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{filter3}\PY{p}{,} \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{same}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 1, figsize=(8, 8))}
+
+    \PY{c+c1}{\PYZsh{} ax1.plot(samples\PYZus{}k\PYZus{}1)}
+    \PY{c+c1}{\PYZsh{} ax1.set\PYZus{}title(\PYZdq{}Szum biały\PYZdq{})}
+
+    \PY{c+c1}{\PYZsh{} ax2.plot(filter1)}
+    \PY{c+c1}{\PYZsh{} ax2.set\PYZus{}title(\PYZdq{}Filtr dolnoprzepustowy FIR (SOJ) o 11 punktach\PYZdq{})}
+
+    \PY{c+c1}{\PYZsh{} ax3.plot(filter2)}
+    \PY{c+c1}{\PYZsh{} ax3.set\PYZus{}title(\PYZdq{}Filtr dolnoprzepustowy FIR (SOJ) o 31 punktach\PYZdq{})}
+
+    \PY{c+c1}{\PYZsh{} ax4.plot(filter3)}
+    \PY{c+c1}{\PYZsh{} ax4.set\PYZus{}title(\PYZdq{}Filtr dolnoprzepustowy FIR (SOJ) o 51 punktach\PYZdq{})}
+
+    \PY{c+c1}{\PYZsh{} fig.tight\PYZus{}layout()}
+
+    \PY{n}{fig}\PY{p}{,} \PY{p}{(}\PY{n}{ax1}\PY{p}{,} \PY{n}{ax2}\PY{p}{,} \PY{n}{ax3}\PY{p}{)} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+
+    \PY{n}{ax1}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Szum biały}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax1}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{filtered1}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Filtr dolnoprzepustowy FIR (SOJ) o 11 punktach}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax1}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{ax2}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Szum biały}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax2}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{filtered2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Filtr dolnoprzepustowy FIR (SOJ) o 31 punktach}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax2}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{ax3}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Szum biały}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax3}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{filtered3}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Filtr dolnoprzepustowy FIR (SOJ) o 51 punktach}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax3}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{dla-k103}{%
+\subsubsection{Dla k=10\^{}(3)}\label{dla-k103}}
+
+    \hypertarget{fcutoff500hz}{%
+\paragraph{fcutoff=500Hz}\label{fcutoff500hz}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{73}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_40_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff1500hz}{%
+\paragraph{fcutoff=1500Hz}\label{fcutoff1500hz}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{74}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{l+m+mi}{1500}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_42_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff2400hz}{%
+\paragraph{fcutoff=2400Hz}\label{fcutoff2400hz}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{75}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{l+m+mi}{2400}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_44_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{dla-k104}{%
+\subsubsection{Dla k=10\^{}(4)}\label{dla-k104}}
+
+    \hypertarget{fcutoff500}{%
+\paragraph{fcutoff=500}\label{fcutoff500}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{76}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_47_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff1500}{%
+\paragraph{fcutoff=1500}\label{fcutoff1500}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{77}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{,} \PY{l+m+mi}{1500}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_49_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff2400}{%
+\paragraph{fcutoff=2400}\label{fcutoff2400}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{78}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{,} \PY{l+m+mi}{2400}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_51_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{dla-k105}{%
+\subsubsection{Dla k=10\^{}(5)}\label{dla-k105}}
+
+    \hypertarget{fcutoff500}{%
+\paragraph{fcutoff=500}\label{fcutoff500}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{79}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_54_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff1500}{%
+\paragraph{fcutoff=1500}\label{fcutoff1500}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{80}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{l+m+mi}{1500}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_56_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff2400}{%
+\paragraph{fcutoff=2400}\label{fcutoff2400}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{81}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{l+m+mi}{2400}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_58_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{dla-k106}{%
+\subsubsection{Dla k=10\^{}(6)}\label{dla-k106}}
+
+    \hypertarget{fcutoff500}{%
+\paragraph{fcutoff=500}\label{fcutoff500}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{82}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_61_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff1500}{%
+\paragraph{fcutoff=1500}\label{fcutoff1500}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{83}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{l+m+mi}{1500}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_63_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff2400}{%
+\paragraph{fcutoff=2400}\label{fcutoff2400}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{84}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{l+m+mi}{2400}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_65_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{dla-k107}{%
+\paragraph{Dla k=10\^{}(7)}\label{dla-k107}}
+
+    \hypertarget{fcutoff500}{%
+\paragraph{fcutoff=500}\label{fcutoff500}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{85}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} filtration(samples\PYZus{}k\PYZus{}5, 500)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{fcutoff1500}{%
+\paragraph{fcutoff=1500}\label{fcutoff1500}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{86}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} filtration(samples\PYZus{}k\PYZus{}5, 1500)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{fcutoff2400}{%
+\paragraph{fcutoff=2400}\label{fcutoff2400}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{87}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} filtration(samples\PYZus{}k\PYZus{}5, 2400)}
+\end{Verbatim}
+\end{tcolorbox}
+
 
     % Add a bibliography block to the postdoc
     
