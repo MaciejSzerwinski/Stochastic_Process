@@ -432,6 +432,75 @@ analiza}\label{symulacja-ciux105guxf3w-pseudolosowych-ich-filtracja-i-analiza}}
   Warszawa, 1988
 \end{enumerate}
 
+    \hypertarget{wstux119p}{%
+\section{Wstęp}\label{wstux119p}}
+
+W dzisiejszych czasach analiza sygnałów odgrywa kluczową rolę w wielu
+dziedzinach, takich jak telekomunikacja, akustyka, elektronika,
+inżynieria dźwięku, systemy komputerowe i wiele innych. Jednym z
+podstawowych rodzajów sygnałów jest tzw. biały szum, który jest szeroko
+stosowany jako model losowych fluktuacji lub zakłóceń.
+
+Biały szum jest sygnałem o losowej amplitudzie, w którym wartości próbek
+są niezależne od siebie i mają jednakowe rozkłady prawdopodobieństwa.
+Jest to sygnał o szerokim pasmie częstotliwości, co oznacza, że zawiera
+komponenty we wszystkich dostępnych częstotliwościach w zakresie od zera
+do nieskończoności. Nazwa ``biały'' wynika stąd, że taki sygnał zawiera
+``równomierny'' rozkład energii w widmie częstotliwości, podobnie jak
+białe światło zawiera wszystkie kolory widma światła widzialnego.
+
+W kontekście analizy sygnałów, biały szum jest często modelowany jako
+szereg próbek generowanych z rozkładu normalnego, znane jako rozkład
+Gaussowski. Rozkład Gaussowski (lub normalny) jest jednym z
+najważniejszych i najczęściej występujących rozkładów
+prawdopodobieństwa. Charakteryzuje się on symetrią wokół średniej
+wartości i opisany jest dwoma parametrami: średnią (wartością
+oczekiwaną) i odchyleniem standardowym.
+
+W niniejszym sprawozdaniu skupimy się na analizie białego szumu o
+rozkładzie Gaussowskim N(5,0.1), co oznacza, że średnia wartość szumu
+wynosi 5, a odchylenie standardowe wynosi 0.1. Przeprowadzimy różne
+analizy tego sygnału, aby zbadać jego właściwości statystyczne.
+
+Naszymi głównymi celami będą:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Symulacja białego szumu o rozkładzie Gaussowskim: Wygenerujemy szereg
+  próbek białego szumu o zadanych parametrach (średnia 5, odchylenie
+  standardowe 0.1) w celu uzyskania odpowiedniego zestawu danych do
+  analizy.
+\item
+  Obliczenie gęstości prawdopodobieństwa, dystrybuanty oraz wartości
+  oczekiwanej, wariancji i funkcji kowariancyjnej: Przeanalizujemy
+  otrzymany ciąg próbek białego szumu i obliczymy jego gęstość
+  prawdopodobieństwa oraz dystrybuantę, które pozwolą nam zrozumieć
+  rozkład wartości sygnału. Dodatkowo, obliczymy wartość oczekiwaną,
+  wariancję i funkcję kowariancyjną, które dostarczą nam informacji na
+  temat charakterystyk statystycznych tego sygnału.
+\item
+  Filtracja danych za pomocą filtru dolnoprzepustowego FIR (SOJ) o
+  różnych parametrach: Przeprowadzimy filtrację otrzymanego białego
+  szumu za pomocą filtru dolnoprzepustowego FIR (SOJ), który jest
+  powszechnie stosowany do usuwania szumów wysokoczęstotliwościowych.
+  Zbadamy wpływ różnych parametrów filtru na sygnał wyjściowy.
+\item
+  Porównanie statystycznych charakterystyk sygnału przed i po filtracji:
+  Obliczymy gęstość prawdopodobieństwa, dystrybuantę, wartość
+  oczekiwaną, wariancję i funkcję kowariancyjną sygnału wyjściowego po
+  filtracji. Następnie porównamy wyniki z wynikami uzyskanymi w punkcie
+  2, aby ocenić, w jaki sposób filtracja wpływa na statystyczne cechy
+  sygnału.
+\end{enumerate}
+
+Wyniki naszej analizy przedstawimy w postaci tabel i wykresów, co
+pozwoli nam na lepsze zrozumienie i porównanie różnych parametrów oraz
+efektów filtracji. Poprzez przeprowadzenie tej kompleksowej analizy,
+będziemy mogli pogłębić naszą wiedzę na temat białego szumu o rozkładzie
+Gaussowskim i zrozumieć, jak filtry mogą wpływać na statystyczne
+właściwości sygnału.
+
     \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
     \hypertarget{importowanie-potrzebnych-bibliotek}{%
@@ -439,7 +508,7 @@ analiza}\label{symulacja-ciux105guxf3w-pseudolosowych-ich-filtracja-i-analiza}}
 bibliotek}\label{importowanie-potrzebnych-bibliotek}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{55}{\boxspacing}
+\prompt{In}{incolor}{56}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
 \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
@@ -448,6 +517,8 @@ bibliotek}\label{importowanie-potrzebnych-bibliotek}}
 \PY{k+kn}{import} \PY{n+nn}{pandas}  \PY{k}{as} \PY{n+nn}{pd}
 \PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k+kn}{import} \PY{n}{display}\PY{p}{,} \PY{n}{Latex}
 \PY{k+kn}{from} \PY{n+nn}{tabulate} \PY{k+kn}{import} \PY{n}{tabulate}
+\PY{k+kn}{from} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{gridspec} \PY{k+kn}{import} \PY{n}{GridSpec}
+\PY{k+kn}{from} \PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{signal} \PY{k+kn}{import} \PY{n}{butter}\PY{p}{,} \PY{n}{filtfilt}
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -459,38 +530,71 @@ bibliotek}\label{importowanie-potrzebnych-bibliotek}}
 \subsubsection{Wytworzenie szumu białego o rozkładzie
 Gassowskim}\label{wytworzenie-szumu-biaux142ego-o-rozkux142adzie-gassowskim}}
 
+    W poniższym kodzie przeprowadzamy generowanie próbek białego szumu o
+rozkładzie Gaussowskim z różnymi parametrami. Biały szum jest
+fundamentalnym sygnałem w teorii sygnałów i jest szeroko stosowany w
+różnych dziedzinach nauki i technologii.
+
+Domyślne parametry do opisu białego szumu zostały zdefiniowane jako
+średnia (mu) równa 5 oraz odchylenie standardowe (sigma) równa 0.1. Te
+parametry określają rozkład normalny (Gaussowski) generowanych próbek
+białego szumu.
+
+Następnie, dla różnych wartości parametru k (ilość próbek), generujemy
+próbki białego szumu o rozkładzie Gaussowskim za pomocą funkcji
+np.random.normal z biblioteki NumPy. Wygenerowane próbki białego szumu
+są przechowywane w zmiennych samples\_k\_3, samples\_k\_4,
+samples\_k\_5, samples\_k\_6 i samples\_k\_7, które reprezentują kolejno
+próbki dla k=10\^{}3, k=10\^{}4, k=10\^{}5, k=10\^{}6 oraz k=10\^{}7.
+
+Następnie, za pomocą biblioteki Matplotlib, tworzymy wykresy dla każdego
+zestawu próbek białego szumu. Wykresy są przedstawione na siatce 3x2,
+gdzie w każdym wierszu znajdują się dwa wykresy dla różnych wartości k.
+Szerokość i wysokość figury zostały dostosowane, a tytuł główny ``Szum
+biały o rozkładzie Gaussowskim z różnym parametrem k'' został dodany dla
+lepszej identyfikacji.
+
+Wizualizacja tych próbek białego szumu o różnych wartościach k pozwala
+na obserwację zmian w ich charakterze w zależności od liczby próbek.
+Pozwala to lepiej zrozumieć, jak różne wartości k wpływają na wygląd
+białego szumu oraz jego losowość.
+
+Wyniki tych generacji próbek białego szumu będą stanowić punkt wyjścia
+do dalszej analizy statystycznej w kolejnych częściach sprawozdania.
+
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{56}{\boxspacing}
+\prompt{In}{incolor}{57}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{}Default parameters to describe white noise}
 \PY{n}{mu} \PY{o}{=} \PY{l+m+mi}{5}
 \PY{n}{sigma} \PY{o}{=} \PY{l+m+mf}{0.1}
-\PY{n}{k\PYZus{}1} \PY{o}{=} \PY{n+nb}{pow}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}     \PY{c+c1}{\PYZsh{}Amount of samples to generate white noise}
-\PY{n}{k\PYZus{}2} \PY{o}{=} \PY{n+nb}{pow}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}
-\PY{n}{k\PYZus{}3} \PY{o}{=} \PY{n+nb}{pow}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}
-\PY{n}{k\PYZus{}4} \PY{o}{=} \PY{n+nb}{pow}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}
-\PY{n}{k\PYZus{}5} \PY{o}{=} \PY{n+nb}{pow}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{7}\PY{p}{)}
 
-\PY{n}{samples\PYZus{}k\PYZus{}1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{mu}\PY{p}{,} \PY{n}{sigma}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{k\PYZus{}1}\PY{p}{)}
-\PY{n}{samples\PYZus{}k\PYZus{}2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{mu}\PY{p}{,} \PY{n}{sigma}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{k\PYZus{}2}\PY{p}{)}
+\PY{n}{k\PYZus{}3} \PY{o}{=} \PY{n+nb}{pow}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}     \PY{c+c1}{\PYZsh{}Amount of samples to generate white noise}
+\PY{n}{k\PYZus{}4} \PY{o}{=} \PY{n+nb}{pow}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}
+\PY{n}{k\PYZus{}5} \PY{o}{=} \PY{n+nb}{pow}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}
+\PY{n}{k\PYZus{}6} \PY{o}{=} \PY{n+nb}{pow}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}
+\PY{n}{k\PYZus{}7} \PY{o}{=} \PY{n+nb}{pow}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{7}\PY{p}{)}
+
 \PY{n}{samples\PYZus{}k\PYZus{}3} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{mu}\PY{p}{,} \PY{n}{sigma}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{k\PYZus{}3}\PY{p}{)}
 \PY{n}{samples\PYZus{}k\PYZus{}4} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{mu}\PY{p}{,} \PY{n}{sigma}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{k\PYZus{}4}\PY{p}{)}
 \PY{n}{samples\PYZus{}k\PYZus{}5} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{mu}\PY{p}{,} \PY{n}{sigma}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{k\PYZus{}5}\PY{p}{)}
+\PY{n}{samples\PYZus{}k\PYZus{}6} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{mu}\PY{p}{,} \PY{n}{sigma}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{k\PYZus{}6}\PY{p}{)}
+\PY{n}{samples\PYZus{}k\PYZus{}7} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{mu}\PY{p}{,} \PY{n}{sigma}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{k\PYZus{}7}\PY{p}{)}
 
 \PY{n}{fig}\PY{p}{,} \PY{n}{axarr} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figheight}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figwidth}\PY{p}{(}\PY{l+m+mi}{18}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Szum biały o rozkładzie Gaussowskim z różnym parametrem k}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
 
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(3)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(4)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(5)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}6}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(6)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}7}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(7)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}visible}\PY{p}{(}\PY{k+kc}{False}\PY{p}{)}
 
@@ -504,7 +608,7 @@ Gassowskim}\label{wytworzenie-szumu-biaux142ego-o-rozkux142adzie-gassowskim}}
 \end{tcolorbox}
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_6_0.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_8_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
@@ -524,7 +628,7 @@ Gaussowskim dla róznych
 k}\label{wyux15bwietlenie-histogramu-szumu-biaux142ego-o-charakterze-gaussowskim-dla-ruxf3znych-k}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{57}{\boxspacing}
+\prompt{In}{incolor}{58}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{k}{def} \PY{n+nf}{display\PYZus{}hist}\PY{p}{(}\PY{n}{samples}\PY{p}{,} \PY{n}{k}\PY{p}{)}\PY{p}{:}
     \PY{n}{delta\PYZus{}x\PYZus{}1}\PY{o}{=}\PY{l+m+mi}{1}
@@ -559,24 +663,9 @@ k}\label{wyux15bwietlenie-histogramu-szumu-biaux142ego-o-charakterze-gaussowskim
 \paragraph{k=10\^{}(3)}\label{k103}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{58}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{k\PYZus{}1}\PY{p}{)}
-\end{Verbatim}
-\end{tcolorbox}
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_11_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \hypertarget{k104}{%
-\paragraph{k=10\^{}(4)}\label{k104}}
-
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{59}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{,} \PY{n}{k\PYZus{}2}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{n}{k\PYZus{}3}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -585,41 +674,41 @@ k}\label{wyux15bwietlenie-histogramu-szumu-biaux142ego-o-charakterze-gaussowskim
     \end{center}
     { \hspace*{\fill} \\}
     
-    \hypertarget{k105}{%
-\paragraph{k=10\^{}(5)}\label{k105}}
+    Histogram ten przedstawia rozkład próbek białego szumu dla szerokości
+binów równych 1. Możemy zauważyć, że histogram jest gładki i symetryczny
+wokół wartości oczekiwanej, która wynosi 5. Większość próbek skupia się
+wokół tej wartości, co jest zgodne z rozkładem Gaussowskim o średniej 5.
+Histogram ten sugeruje, że próbki białego szumu są równomiernie
+rozłożone wokół wartości oczekiwanej.
+
+    \hypertarget{k104}{%
+\paragraph{k=10\^{}(4)}\label{k104}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{60}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{n}{k\PYZus{}3}\PY{p}{)}
-\end{Verbatim}
-\end{tcolorbox}
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_15_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \hypertarget{k106}{%
-\paragraph{k=10\^{}(6)}\label{k106}}
-
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{61}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{n}{k\PYZus{}4}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_17_0.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_16_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
-    \hypertarget{k107}{%
-\paragraph{k=10\^{}(7)}\label{k107}}
+    Histogram ten reprezentuje rozkład próbek białego szumu dla szerokości
+binów równych 0,6. Zmniejszenie szerokości binów powoduje większą liczbę
+binów i bardziej szczegółowy rozkład próbek na wykresie. Wartości próbek
+wciąż są skupione wokół wartości oczekiwanej 5, co jest zgodne z
+rozkładem Gaussowskim. Widzimy, że histogram jest symetryczny, a rozkład
+próbek wokół wartości oczekiwanej jest bardziej wyraźny niż w przypadku
+Δx=1.
+
+    \hypertarget{k105}{%
+\paragraph{k=10\^{}(5)}\label{k105}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{62}{\boxspacing}
+\prompt{In}{incolor}{61}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{,} \PY{n}{k\PYZus{}5}\PY{p}{)}
 \end{Verbatim}
@@ -630,6 +719,69 @@ k}\label{wyux15bwietlenie-histogramu-szumu-biaux142ego-o-charakterze-gaussowskim
     \end{center}
     { \hspace*{\fill} \\}
     
+    Histogram ten pokazuje rozkład próbek białego szumu dla szerokości binów
+wynoszącej 0,3. Zmniejszenie szerokości binów prowadzi do jeszcze
+większej liczby binów i jeszcze większej szczegółowości na wykresie.
+Rozkład próbek nadal jest symetryczny wokół wartości oczekiwanej 5.
+Obserwujemy, że histogram wykazuje lepszą separację między
+poszczególnymi wartościami próbek białego szumu, co pozwala nam
+zidentyfikować bardziej subtelne niuanse w rozkładzie.
+
+    \hypertarget{k106}{%
+\paragraph{k=10\^{}(6)}\label{k106}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{62}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}6}\PY{p}{,} \PY{n}{k\PYZus{}6}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_22_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Ten histogram przedstawia rozkład próbek białego szumu dla najmniejszej
+szerokości binów wynoszącej 0,1. Widzimy, że histogram składa się z
+bardzo dużej liczby binów, co daje nam bardzo szczegółowy obraz rozkładu
+próbek. Mimo drobnych nieregularności w rozkładzie, wciąż możemy
+zaobserwować symetryczną strukturę wokół wartości oczekiwanej 5.
+Szczegółowość histogramu pozwala nam dostrzec bardziej subtelną
+strukturę i różnice w wartościach próbek białego szumu.
+
+    \hypertarget{k107}{%
+\paragraph{k=10\^{}(7)}\label{k107}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{63}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}7}\PY{p}{,} \PY{n}{k\PYZus{}7}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_25_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Histogram ten przedstawia rozkład próbek białego szumu dla najmniejszej
+szerokości binów wynoszącej 0,1. Obserwujemy bardzo dużą liczbę binów na
+wykresie, co daje nam największą szczegółowość i najbardziej dokładne
+odzwierciedlenie rozkładu próbek. Podobnie jak wcześniej, pomimo
+drobnych nieregularności w rozkładzie, wciąż możemy zaobserwować
+symetryczny rozkład wokół wartości oczekiwanej 5. Szczegółowość tego
+histogramu pozwala nam jeszcze lepiej zrozumieć różnice i subtelne
+niuanse w próbkach białego szumu.
+
+Wnioski ogólne: * Zmniejszanie szerokości binów (większa liczba binów)
+prowadzi do bardziej szczegółowego rozkładu próbek białego szumu. *
+Pomimo zwiększonej szczegółowości, obserwujemy zachowanie symetrycznego
+rozkładu wokół wartości oczekiwanej. * Szerokość binów ma istotny wpływ
+na reprezentację rozkładu próbek białego szumu, a odpowiedni wybór
+wartości Δx może być istotny w analizie i interpretacji tego rodzaju
+szumu.
+
     \hypertarget{na-podstawie-otrzymanego-ciux105gu-obliczyux107-gux119stoux15bux107-prawdopodobieux144stwta-dystrybuantux119-a-teux17c-wartoux15bux107-oczekiwan-wariancjux119-i-funkcjux119-kowariancyjnux105.}{%
 \subsection{2. Na podstawie otrzymanego ciągu obliczyć gęstość
 prawdopodobieństwta, dystrybuantę, a też wartość oczekiwan, wariancję i
@@ -655,7 +807,7 @@ najpierw tablicę. Wytłumaczenie w linku poniżej\\
 https://stackoverflow.com/questions/71296986/how-to-draw-the-probability-density-function-pdf-plot-in-python
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{63}{\boxspacing}
+\prompt{In}{incolor}{64}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{k}{def} \PY{n+nf}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples}\PY{p}{)}\PY{p}{:}
     \PY{n}{sort\PYZus{}samples} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples}\PY{p}{)}
@@ -665,22 +817,22 @@ https://stackoverflow.com/questions/71296986/how-to-draw-the-probability-density
 \end{tcolorbox}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{64}{\boxspacing}
+\prompt{In}{incolor}{65}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{fig}\PY{p}{,} \PY{n}{axarr} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figheight}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figwidth}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Gęstość prawdopodobieństwa dla różnego k}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
 
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(3)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(4)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(5)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}6}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}6}\PY{p}{)}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(6)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}7}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}7}\PY{p}{)}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(7)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}visible}\PY{p}{(}\PY{k+kc}{False}\PY{p}{)}
 
@@ -694,10 +846,42 @@ https://stackoverflow.com/questions/71296986/how-to-draw-the-probability-density
 \end{tcolorbox}
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_23_0.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_30_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
+    Dla każdej wartości k (k=10\^{}3, k=10\^{}4, k=10\^{}5, k=10\^{}6,
+k=10\^{}7), zostały wygenerowane odpowiednie próbki białego szumu o
+rozkładzie Gaussowskim N(5, 0.1). Następnie te próbki zostały
+posortowane rosnąco.
+
+Dla każdej wartości k, obliczona została gęstość prawdopodobieństwa dla
+posortowanych próbek, korzystając z rozkładu normalnego o parametrach
+mu=5 i sigma=0.1. Funkcja probability\_pdf zwraca wartości gęstości
+prawdopodobieństwa dla poszczególnych próbek.
+
+Na wykresie przedstawiono wyniki dla każdej wartości k. Na osi poziomej
+znajdują się posortowane próbki, a na osi pionowej wartości gęstości
+prawdopodobieństwa. Wykresy te pozwalają na wizualizację rozkładu próbek
+białego szumu i porównanie różnych wartości k.
+
+Analiza i wnioski: * W miarę zwiększania wartości k, czyli liczby
+generowanych próbek, gęstość prawdopodobieństwa staje się bardziej
+gładka i zbliża się do gęstości rozkładu Gaussowskiego o parametrach
+mu=5 i sigma=0.1. * Dla k=10\^{}3 i k=10\^{}4, gęstość
+prawdopodobieństwa wykazuje nieco większe fluktuacje wokół wartości
+oczekiwanej. * Dla większych wartości k (k=10\^{}5, k=10\^{}6,
+k=10\^{}7), gęstość prawdopodobieństwa staje się coraz bardziej zbliżona
+do teoretycznej gęstości rozkładu Gaussowskiego. * Wartości gęstości
+prawdopodobieństwa wokół wartości oczekiwanej są najwyższe, co jest
+zgodne z oczekiwaniami, ponieważ wartość oczekiwana rozkładu
+Gaussowskiego jest równa 5. * Analiza tych wykresów pozwala lepiej
+zrozumieć, jak wartość k wpływa na gładkość i dokładność przybliżenia
+rozkładu próbek białego szumu do rozkładu Gaussowskiego. Wnioski te
+ilustrują, jak analiza gęstości prawdopodobieństwa może pomóc w lepszym
+zrozumieniu i wizualizacji charakterystyk białego szumu oraz wpływu
+parametru k na jakość aproksymacji rozkładu Gaussowskiego.
+
     \hypertarget{obliczenie-dystrybuanty}{%
 \subsubsection{Obliczenie dystrybuanty}\label{obliczenie-dystrybuanty}}
 
@@ -715,7 +899,7 @@ należało skorzystać z posortowanych wcześniej danych w tablicy samples
 https://stackoverflow.com/questions/24788200/calculate-the-cumulative-distribution-function-cdf-in-python
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{65}{\boxspacing}
+\prompt{In}{incolor}{66}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{k}{def} \PY{n+nf}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples}\PY{p}{)}\PY{p}{:}
     \PY{n}{sort\PYZus{}samples} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples}\PY{p}{)}
@@ -725,22 +909,22 @@ https://stackoverflow.com/questions/24788200/calculate-the-cumulative-distributi
 \end{tcolorbox}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{66}{\boxspacing}
+\prompt{In}{incolor}{67}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{fig}\PY{p}{,} \PY{n}{axarr} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figheight}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figwidth}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Gęstość prawdopodobieństwa dla różnego k}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
 
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(3)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(4)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(5)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}6}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}6}\PY{p}{)}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(6)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}7}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}7}\PY{p}{)}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(7)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}visible}\PY{p}{(}\PY{k+kc}{False}\PY{p}{)}
 
@@ -754,10 +938,42 @@ https://stackoverflow.com/questions/24788200/calculate-the-cumulative-distributi
 \end{tcolorbox}
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_26_0.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_34_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
+    Dla każdej wartości k (k=10\^{}3, k=10\^{}4, k=10\^{}5, k=10\^{}6,
+k=10\^{}7), zostały wygenerowane odpowiednie próbki białego szumu o
+rozkładzie Gaussowskim N(5, 0.1). Następnie te próbki zostały
+posortowane rosnąco.
+
+Dla każdej wartości k, obliczona została dystrybuanta dla posortowanych
+próbek, korzystając z rozkładu normalnego o parametrach mu=5 i
+sigma=0.1. Funkcja norm\_cdf zwraca wartości dystrybuanty dla
+poszczególnych próbek.
+
+Na wykresie przedstawiono wyniki dla każdej wartości k. Na osi poziomej
+znajdują się posortowane próbki, a na osi pionowej wartości
+dystrybuanty. Wykresy te pozwalają na wizualizację rozkładu próbek
+białego szumu i porównanie różnych wartości k.
+
+Analiza i wnioski: * W miarę zwiększania wartości k, dystrybuanta staje
+się coraz bardziej zbliżona do dystrybuanty rozkładu Gaussowskiego o
+parametrach mu=5 i sigma=0.1. * Dla małych wartości k (k=10\^{}3,
+k=10\^{}4), dystrybuanta wykazuje większe fluktuacje wokół wartości
+oczekiwanej. * Dla większych wartości k (k=10\^{}5, k=10\^{}6,
+k=10\^{}7), dystrybuanta staje się coraz bardziej zbliżona do
+teoretycznej dystrybuanty rozkładu Gaussowskiego. * Wartości
+dystrybuanty w punkcie wartości oczekiwanej (mu) są coraz bliższe 0.5,
+co jest zgodne z właściwościami dystrybuanty rozkładu Gaussowskiego. *
+Analiza tych wykresów pozwala lepiej zrozumieć, jak wartość k wpływa na
+dokładność aproksymacji dystrybuanty rozkładu Gaussowskiego dla próbek
+białego szumu.
+
+Wnioski te ilustrują, jak analiza dystrybuanty może pomóc w lepszym
+zrozumieniu i wizualizacji charakterystyk białego szumu oraz wpływu
+parametru k na jakość aproksymacji dystrybuanty rozkładu Gaussowskiego.
+
     \hypertarget{obliczenie-wartoux15bci-oczekiwanej}{%
 \subsubsection{Obliczenie wartości
 oczekiwanej}\label{obliczenie-wartoux15bci-oczekiwanej}}
@@ -775,18 +991,18 @@ Wytłumaczone na filmiku jak w pythonie obliczać wartość oczekiwaną oraz
 wariancję https://www.youtube.com/watch?v=ikcUBqELZVU
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{67}{\boxspacing}
+\prompt{In}{incolor}{68}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(3)}
-\PY{n}{expected\PYZus{}value\PYZus{}k1} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
+\PY{n}{expected\PYZus{}value\PYZus{}k1} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
 \PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(4)}
-\PY{n}{expected\PYZus{}value\PYZus{}k2} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
+\PY{n}{expected\PYZus{}value\PYZus{}k2} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
 \PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(5)}
-\PY{n}{expected\PYZus{}value\PYZus{}k3} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
+\PY{n}{expected\PYZus{}value\PYZus{}k3} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
 \PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(6)}
-\PY{n}{expected\PYZus{}value\PYZus{}k4} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
+\PY{n}{expected\PYZus{}value\PYZus{}k4} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}6}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
 \PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(7)}
-\PY{n}{expected\PYZus{}value\PYZus{}k5} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
+\PY{n}{expected\PYZus{}value\PYZus{}k5} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}7}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -810,56 +1026,53 @@ wariancji i wyraża się w tych samych jednostkach co zmienna losowa.
 \[ \operatorname{Var}(X) = E\left[(X - E(X))^2\right] = \int_{-\infty}^{\infty} (x - E(X))^2 f(x) dx \]
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{68}{\boxspacing}
+\prompt{In}{incolor}{69}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(3)}
-\PY{n}{variance\PYZus{}k1} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
+\PY{n}{variance\PYZus{}k1} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
 \PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(4)}
-\PY{n}{variance\PYZus{}k2} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
+\PY{n}{variance\PYZus{}k2} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
 \PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(5)}
-\PY{n}{variance\PYZus{}k3} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
+\PY{n}{variance\PYZus{}k3} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
 \PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(6)}
-\PY{n}{variance\PYZus{}k4} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
+\PY{n}{variance\PYZus{}k4} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}6}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
 \PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(7)}
-\PY{n}{variance\PYZus{}k5} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
+\PY{n}{variance\PYZus{}k5} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}7}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
 \end{Verbatim}
 \end{tcolorbox}
 
     Podsumowanie obliczeń wartości oczekiwanej oraz kowariancji względem
 różnych k
 
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{104}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{n+nb}{dict} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZca{}(3)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZca{}(4)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZca{}(5)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZca{}(6)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZca{}(7)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
-        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{wartość oczekiwana}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{p}{[}\PY{n}{expected\PYZus{}value\PYZus{}k1}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k2}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k3}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k4}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k5}\PY{p}{]}\PY{p}{,}
-        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{wariancja}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{p}{[}\PY{n}{variance\PYZus{}k1}\PY{p}{,} \PY{n}{variance\PYZus{}k2}\PY{p}{,} \PY{n}{variance\PYZus{}k3}\PY{p}{,} \PY{n}{variance\PYZus{}k4}\PY{p}{,} \PY{n}{variance\PYZus{}k5}\PY{p}{]}\PY{p}{\PYZcb{}}
-\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n+nb}{dict}\PY{p}{)}
+\input{./tables/table_1.tex}
 
-\PY{n+nb}{print}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{to\PYZus{}latex}\PY{p}{(} \PY{n}{index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{)}
-\end{Verbatim}
-\end{tcolorbox}
+Analiza: 
+\newline * Wartość oczekiwana (średnia) reprezentuje centralny punkt
+rozkładu próbek i informuje nas o oczekiwanej wartości białego szumu. \newline
+*Wariancja mierzy rozproszenie próbek wokół wartości oczekiwanej i
+wskazuje na stopień zmienności białego szumu.
 
-\begin{tabular}{lrr}
-    \toprule
-        k &  wartość oczekiwana &  wariancja \\
-    \midrule
-    k^(3) &            5.006774 &   0.010024 \\
-    k^(4) &            4.999867 &   0.010008 \\
-    k^(5) &            5.000415 &   0.010039 \\
-    k^(6) &            5.000057 &   0.009997 \\
-    k^(7) &            5.000018 &   0.010000 \\
-    \bottomrule
-    \end{tabular}
+Wnioski: 
+\newline * Dla każdej próbki białego szumu o rozkładzie Gaussowskim,
+wartość oczekiwana (mean) jest bliska wartości parametru mu (5), co jest
+zgodne z oczekiwaniami, ponieważ próbki zostały wygenerowane z rozkładu
+N(5, 0.1). 
+\newline * Wraz ze zwiększaniem wartości k (liczby próbek), wartość
+oczekiwana staje się bardziej stabilna i zbliża się do wartości
+parametru mu, co potwierdza centralne twierdzenie graniczne. 
+\newline * Wariancja
+próbek białego szumu maleje wraz ze zwiększaniem wartości k. Oznacza to,
+że im większa liczba próbek, tym mniejsze jest rozproszenie i bardziej
+stabilne jest zachowanie białego szumu. 
+\newline * Dla każdej próbki, wariancja
+jest bliska wartości parametru sigma (0.1), co jest zgodne z
+oczekiwaniami, ponieważ próbki zostały wygenerowane z rozkładu N(5,
+0.1).
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-C:\textbackslash{}Users\textbackslash{}maszy\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Temp\textbackslash{}ipykernel\_16008\textbackslash{}3033685121.py:6:
-FutureWarning: In future versions `DataFrame.to\_latex` is expected to utilise
-the base implementation of `Styler.to\_latex` for formatting and rendering. The
-arguments signature may therefore change. It is recommended instead to use
-`DataFrame.style.to\_latex` which also contains additional functionality.
-  print(df.to\_latex( index=False))
-    \end{Verbatim}
+Analiza wariancji i wartości oczekiwanej pomaga w zrozumieniu
+charakterystyk białego szumu i ilustruje, jak zwiększanie liczby próbek
+wpływa na dokładność aproksymacji wartości oczekiwanej i wariancji
+rozkładu Gaussowskiego.
 
     \hypertarget{obliczenie-funkcji-kowariancyjnej}{%
 \subsubsection{Obliczenie funkcji
@@ -879,32 +1092,51 @@ gdzie X\_i i X\_j to próbki szumu białego, a σ\^{}2 to wariancja szumu
 białego.
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{70}{\boxspacing}
+\prompt{In}{incolor}{71}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} def covariance(samples, k):}
+\PY{c+c1}{\PYZsh{}     \PYZsh{} Subtitute DC component noise signal from samples}
+\PY{c+c1}{\PYZsh{}     subtitute\PYZus{}mu\PYZus{}value = samples \PYZhy{} mu}
+\PY{c+c1}{\PYZsh{}     \PYZsh{} Compute covariance function}
+\PY{c+c1}{\PYZsh{}     cov = np.correlate(subtitute\PYZus{}mu\PYZus{}value, subtitute\PYZus{}mu\PYZus{}value, mode=\PYZsq{}full\PYZsq{}) / k}
+\PY{c+c1}{\PYZsh{}     return cov}
+
 \PY{k}{def} \PY{n+nf}{covariance}\PY{p}{(}\PY{n}{samples}\PY{p}{,} \PY{n}{k}\PY{p}{)}\PY{p}{:}
-    \PY{c+c1}{\PYZsh{} Subtitute DC component noise signal from samples}
-    \PY{n}{subtitute\PYZus{}mu\PYZus{}value} \PY{o}{=} \PY{n}{samples} \PY{o}{\PYZhy{}} \PY{n}{mu}
-    \PY{c+c1}{\PYZsh{} Compute covariance function}
-    \PY{n}{cov} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{correlate}\PY{p}{(}\PY{n}{subtitute\PYZus{}mu\PYZus{}value}\PY{p}{,} \PY{n}{subtitute\PYZus{}mu\PYZus{}value}\PY{p}{,} \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{full}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{/} \PY{n}{k}
+    \PY{n}{substitute\PYZus{}mu\PYZus{}value} \PY{o}{=} \PY{n}{samples} \PY{o}{\PYZhy{}} \PY{n}{mu}
+    \PY{n}{cov} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{fft}\PY{o}{.}\PY{n}{fftshift}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{fft}\PY{o}{.}\PY{n}{ifft}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{fft}\PY{o}{.}\PY{n}{fft}\PY{p}{(}\PY{n}{substitute\PYZus{}mu\PYZus{}value}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{/} \PY{n}{k}\PY{p}{)}\PY{p}{)}
+    \PY{n}{cov} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{real}\PY{p}{(}\PY{n}{cov}\PY{p}{)}
     \PY{k}{return} \PY{n}{cov}
 \end{Verbatim}
 \end{tcolorbox}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{71}{\boxspacing}
+\prompt{In}{incolor}{72}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{fig}\PY{p}{,} \PY{n}{axarr} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figheight}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figwidth}\PY{p}{(}\PY{l+m+mi}{22}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Funkcja kowariancyjna dla różnego k}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
 
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{covariance}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{k\PYZus{}1}\PY{p}{)}\PY{p}{)}
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(3)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{covariance}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{,} \PY{n}{k\PYZus{}2}\PY{p}{)}\PY{p}{)}
-\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(4)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{cov\PYZus{}k\PYZus{}3} \PY{o}{=} \PY{n}{covariance}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{n}{k\PYZus{}3}\PY{p}{)}
+\PY{n}{cov\PYZus{}k\PYZus{}4} \PY{o}{=} \PY{n}{covariance}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{n}{k\PYZus{}4}\PY{p}{)}
 
-\PY{c+c1}{\PYZsh{} Tight layout often produces nice results}
-\PY{c+c1}{\PYZsh{} but requires the title to be spaced accordingly}
+\PY{n}{x\PYZus{}k\PYZus{}3} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k\PYZus{}3}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{k\PYZus{}3}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{)}
+\PY{n}{x\PYZus{}k\PYZus{}4} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k\PYZus{}4}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{k\PYZus{}4}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Zwiększenie wartości na osi Y}
+\PY{n}{y\PYZus{}max\PYZus{}k\PYZus{}3} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}3}\PY{p}{)} \PY{o}{*} \PY{l+m+mf}{1.2}
+\PY{n}{y\PYZus{}max\PYZus{}k\PYZus{}4} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}4}\PY{p}{)} \PY{o}{*} \PY{l+m+mf}{1.2}
+
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{n}{cov\PYZus{}k\PYZus{}3}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(3)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k\PYZus{}3}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{k\PYZus{}3}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{,} \PY{n}{y\PYZus{}max\PYZus{}k\PYZus{}3}\PY{p}{)}
+
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{n}{cov\PYZus{}k\PYZus{}4}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(4)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k\PYZus{}4}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{500}\PY{p}{,} \PY{n}{k\PYZus{}4}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{500}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} axarr[1].set\PYZus{}ylim(np.min(cov\PYZus{}k\PYZus{}4\PYZus{}smooth), y\PYZus{}max\PYZus{}k\PYZus{}4)}
+
 \PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
 \PY{n}{fig}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{0.92}\PY{p}{)}
 
@@ -913,152 +1145,159 @@ białego.
 \end{tcolorbox}
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_35_0.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_45_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
+    \begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Wzrost wartości k: Wraz ze wzrostem wartości k, czyli liczby próbek
+  generowanych do obliczenia funkcji kowariancji, obserwuje się większą
+  precyzję estymacji tej funkcji. Dla większych wartości k, funkcja
+  kowariancji jest bardziej gładka i dokładniejsza, co pozwala na lepsze
+  zrozumienie zależności między próbkami szumu.
+\item
+  Charakterystyka funkcji kowariancji: W przypadku szumu białego o
+  rozkładzie Gaussa, funkcja kowariancji powinna być równa 0 dla
+  wszystkich wartości przesunięcia czasowego (opóźnienia). Oznacza to
+  brak zależności między próbkami szumu w różnych momentach czasowych.
+  Na wykresach możemy zauważyć, że funkcja kowariancji oscyluje wokół
+  wartości 0 i nie wykazuje żadnego wyraźnego trendu.
+\item
+  Oś czasu: Oś czasu na wykresach reprezentuje przesunięcie czasowe
+  między próbkami szumu. Na pierwszym wykresie, gdzie k=10\^{}3, oś
+  czasu jest ograniczona do bardzo małego zakresu, co umożliwia dokładne
+  zbadanie krótkotrwałych zależności między próbkami. Na drugim
+  wykresie, gdzie k=10\^{}4, oś czasu jest bardziej rozciągnięta, co
+  pozwala na analizę zależności na większą skalę czasową.
+\item
+  Skalowanie wykresu: Aby lepiej zobaczyć szczegóły funkcji kowariancji,
+  wartości na osi Y zostały zwiększone w celu wyeksponowania
+  ewentualnych małych różnic i fluktuacji. Skalowanie wykresu pomaga w
+  identyfikacji subtelnych zmian w funkcji kowariancji.
+\end{enumerate}
+
+Podsumowując, funkcja kowariancji dla szumu białego o rozkładzie Gaussa
+N(5,0.1) jest charakterystyczna, oscylując wokół wartości 0 bez
+wyraźnego trendu. Zwiększenie wartości k prowadzi do dokładniejszej
+estymacji funkcji kowariancji. Analiza funkcji kowariancji pozwala na
+zrozumienie zależności między próbkami szumu w różnych punktach
+czasowych.
+
     \hypertarget{przeprowadziux107-filtracjux119-danych-z-wykorzystaniem-filtru-dolnoprzepustowego-fir-soj-o-ruxf3ux17cnych-parametrach}{%
 \subsection{3. Przeprowadzić filtrację danych z wykorzystaniem filtru
 dolnoprzepustowego FIR (SOJ) o różnych
 parametrach}\label{przeprowadziux107-filtracjux119-danych-z-wykorzystaniem-filtru-dolnoprzepustowego-fir-soj-o-ruxf3ux17cnych-parametrach}}
 
+Rozdział ten skupia się na analizie i zastosowaniu filtrów
+dolnoprzepustowych FIR (Skończonej Impulsowej Odpowiedzi) w celu
+redukcji szumu białego o rozkładzie gaussowskim N(5,0.1) z sygnałów
+danych. Szum biały jest powszechnym rodzajem zakłóceń występujących w
+sygnałach i charakteryzuje się równomiernym rozkładem energii na
+wszystkich częstotliwościach. Filtry dolnoprzepustowe FIR są efektywnym
+narzędziem do eliminacji wysokoczęstotliwościowego szumu, pozostawiając
+jednocześnie sygnał o niskich częstotliwościach nienaruszonym.
+
+W naszym przypadku, szum biały ma rozkład gaussowski N(5,0.1), co
+oznacza, że jego wartość oczekiwana wynosi 5, a odchylenie standardowe
+wynosi 0.1. Celem tego rozdziału jest zastosowanie filtrów
+dolnoprzepustowych FIR w celu redukcji tego szumu z sygnałów danych, aby
+poprawić jakość i czytelność sygnału.
+
+Podczas eksperymentów będziemy badać różne parametry filtru
+dolnoprzepustowego FIR, takie jak długość okna filtracyjnego,
+częstotliwość odcięcia i charakterystyka zwrotna. Przeanalizujemy wpływ
+tych parametrów na skuteczność redukcji szumu oraz na zachowanie sygnału
+oryginalnego.
+
+W trakcie analizy porównamy wyniki filtracji dla różnych wartości
+parametrów i ocenimy, jak filtr dolnoprzepustowy FIR wpływa na sygnał,
+redukując szum biały o rozkładzie gaussowskim. Zbadamy zarówno
+charakterystykę czasową, jak i częstotliwościową przefiltrowanego
+sygnału, aby ocenić, jak efektywnie filtr redukuje szum i zachowuje
+istotne informacje sygnału.
+
+Poznanie wpływu różnych parametrów filtru dolnoprzepustowego FIR na
+redukcję szumu białego o rozkładzie gaussowskim pozwoli na bardziej
+skuteczną filtrację sygnałów w obecności tego rodzaju zakłóceń. Pozwoli
+to na poprawę jakości sygnałów w różnorodnych dziedzinach, takich jak
+przetwarzanie dźwięku, obrazu, sygnałów pomiarowych itp.
+
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{72}{\boxspacing}
+\prompt{In}{incolor}{73}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{k}{def} \PY{n+nf}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{cutoff\PYZus{}param}\PY{p}{)}\PY{p}{:}
+\PY{k}{def} \PY{n+nf}{calculate\PYZus{}impulse\PYZus{}response}\PY{p}{(}\PY{n}{numtaps}\PY{p}{,} \PY{n+nb}{filter}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} Tworzenie impulsu jednostkowego}
+    \PY{n}{impulse} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n}{numtaps}\PY{p}{)}
+    \PY{n}{impulse}\PY{p}{[}\PY{n}{numtaps} \PY{o}{/}\PY{o}{/} \PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}
+    
+    \PY{c+c1}{\PYZsh{} Obliczanie odpowiedzi impulsowej filtru FIR}
+    \PY{n}{impulse\PYZus{}response} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{convolve}\PY{p}{(}\PY{n}{impulse}\PY{p}{,} \PY{n+nb}{filter}\PY{p}{,} \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{full}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{impulse\PYZus{}response}
+
+\PY{k}{def} \PY{n+nf}{filtration}\PY{p}{(}\PY{n}{noise}\PY{p}{,} \PY{n}{cutoff\PYZus{}param}\PY{p}{)}\PY{p}{:}
     \PY{c+c1}{\PYZsh{} definicja filtra dolnoprzepustowego FIR (SOJ) o różnych parametrach}
-    \PY{n}{filter1} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{firwin}\PY{p}{(}\PY{n}{numtaps}\PY{o}{=}\PY{l+m+mi}{11} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{cutoff}\PY{o}{=}\PY{n}{cutoff\PYZus{}param}\PY{p}{,} \PY{n}{window}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hamming}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fs}\PY{o}{=}\PY{l+m+mi}{5000}\PY{p}{)}
-    \PY{n}{filter2} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{firwin}\PY{p}{(}\PY{n}{numtaps}\PY{o}{=}\PY{l+m+mi}{31} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{cutoff}\PY{o}{=}\PY{n}{cutoff\PYZus{}param}\PY{p}{,} \PY{n}{window}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hamming}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fs}\PY{o}{=}\PY{l+m+mi}{5000}\PY{p}{)}
-    \PY{n}{filter3} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{firwin}\PY{p}{(}\PY{n}{numtaps}\PY{o}{=}\PY{l+m+mi}{51} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{cutoff}\PY{o}{=}\PY{n}{cutoff\PYZus{}param}\PY{p}{,} \PY{n}{window}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hamming}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fs}\PY{o}{=}\PY{l+m+mi}{5000}\PY{p}{)}
+    \PY{n}{fs} \PY{o}{=} \PY{l+m+mi}{5000}  \PY{c+c1}{\PYZsh{} częstotliwość próbkowania 5 kHz}
+    \PY{n}{filter1} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{firwin}\PY{p}{(}\PY{n}{numtaps}\PY{o}{=}\PY{l+m+mi}{11}\PY{p}{,} \PY{n}{cutoff}\PY{o}{=}\PY{n}{cutoff\PYZus{}param}\PY{p}{,} \PY{n}{fs}\PY{o}{=}\PY{n}{fs}\PY{p}{,} \PY{n}{window}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hamming}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{filter2} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{firwin}\PY{p}{(}\PY{n}{numtaps}\PY{o}{=}\PY{l+m+mi}{31}\PY{p}{,} \PY{n}{cutoff}\PY{o}{=}\PY{n}{cutoff\PYZus{}param}\PY{p}{,} \PY{n}{fs}\PY{o}{=}\PY{n}{fs}\PY{p}{,} \PY{n}{window}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hamming}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{filter3} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{firwin}\PY{p}{(}\PY{n}{numtaps}\PY{o}{=}\PY{l+m+mi}{51}\PY{p}{,} \PY{n}{cutoff}\PY{o}{=}\PY{n}{cutoff\PYZus{}param}\PY{p}{,} \PY{n}{fs}\PY{o}{=}\PY{n}{fs}\PY{p}{,} \PY{n}{window}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hamming}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 
     \PY{c+c1}{\PYZsh{} przeprowadzenie filtracji danych z wykorzystaniem filtrów}
-    \PY{n}{filtered1} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{convolve}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{filter1}\PY{p}{,} \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{same}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{filtered2} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{convolve}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{filter2}\PY{p}{,} \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{same}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{filtered3} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{convolve}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{filter3}\PY{p}{,} \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{same}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{filtered1} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{lfilter}\PY{p}{(}\PY{n}{filter1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{noise}\PY{p}{)}
+    \PY{n}{filtered2} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{lfilter}\PY{p}{(}\PY{n}{filter2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{noise}\PY{p}{)}
+    \PY{n}{filtered3} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{lfilter}\PY{p}{(}\PY{n}{filter3}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{noise}\PY{p}{)}
 
-    \PY{c+c1}{\PYZsh{} fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 1, figsize=(8, 8))}
+    \PY{n}{fig}\PY{p}{,} \PY{n}{axs} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
 
-    \PY{c+c1}{\PYZsh{} ax1.plot(samples\PYZus{}k\PYZus{}1)}
-    \PY{c+c1}{\PYZsh{} ax1.set\PYZus{}title(\PYZdq{}Szum biały\PYZdq{})}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{noise}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Szum biały}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{filtered1}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Filtr dolnoprzepustowy FIR (SOJ) o 11 punktach}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Filtracja filtrem dolnoprzepustowym FIR (SOJ) o 11 punktach}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
 
-    \PY{c+c1}{\PYZsh{} ax2.plot(filter1)}
-    \PY{c+c1}{\PYZsh{} ax2.set\PYZus{}title(\PYZdq{}Filtr dolnoprzepustowy FIR (SOJ) o 11 punktach\PYZdq{})}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{noise}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Szum biały}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{filtered2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Filtr dolnoprzepustowy FIR (SOJ) o 31 punktach}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Filtracja filtrem dolnoprzepustowym FIR (SOJ) o 31 punktach}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
 
-    \PY{c+c1}{\PYZsh{} ax3.plot(filter2)}
-    \PY{c+c1}{\PYZsh{} ax3.set\PYZus{}title(\PYZdq{}Filtr dolnoprzepustowy FIR (SOJ) o 31 punktach\PYZdq{})}
-
-    \PY{c+c1}{\PYZsh{} ax4.plot(filter3)}
-    \PY{c+c1}{\PYZsh{} ax4.set\PYZus{}title(\PYZdq{}Filtr dolnoprzepustowy FIR (SOJ) o 51 punktach\PYZdq{})}
-
-    \PY{c+c1}{\PYZsh{} fig.tight\PYZus{}layout()}
-
-    \PY{n}{fig}\PY{p}{,} \PY{p}{(}\PY{n}{ax1}\PY{p}{,} \PY{n}{ax2}\PY{p}{,} \PY{n}{ax3}\PY{p}{)} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
-
-    \PY{n}{ax1}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Szum biały}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{ax1}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{filtered1}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Filtr dolnoprzepustowy FIR (SOJ) o 11 punktach}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{ax1}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
-
-    \PY{n}{ax2}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Szum biały}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{ax2}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{filtered2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Filtr dolnoprzepustowy FIR (SOJ) o 31 punktach}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{ax2}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
-
-    \PY{n}{ax3}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Szum biały}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{ax3}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{filtered3}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Filtr dolnoprzepustowy FIR (SOJ) o 51 punktach}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{ax3}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
-
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{noise}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Szum biały}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{filtered3}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Filtr dolnoprzepustowy FIR (SOJ) o 51 punktach}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Filtracja filtrem dolnoprzepustowym FIR (SOJ) o 51 punktach}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+    
+    \PY{n}{impulse\PYZus{}response1} \PY{o}{=} \PY{n}{calculate\PYZus{}impulse\PYZus{}response}\PY{p}{(}\PY{l+m+mi}{11}\PY{p}{,} \PY{n}{filter1}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{stem}\PY{p}{(}\PY{n}{impulse\PYZus{}response1}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Odpowiedź impulsowa filtru FIR (SOJ) o 11 punktach}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{n}{impulse\PYZus{}response2} \PY{o}{=} \PY{n}{calculate\PYZus{}impulse\PYZus{}response}\PY{p}{(}\PY{l+m+mi}{31}\PY{p}{,} \PY{n}{filter2}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{stem}\PY{p}{(}\PY{n}{impulse\PYZus{}response2}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Odpowiedź impulsowa filtru FIR (SOJ) o 31 punktach}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{n}{impulse\PYZus{}response3} \PY{o}{=} \PY{n}{calculate\PYZus{}impulse\PYZus{}response}\PY{p}{(}\PY{l+m+mi}{51}\PY{p}{,} \PY{n}{filter3}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{stem}\PY{p}{(}\PY{n}{impulse\PYZus{}response3}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Odpowiedź impulsowa filtru FIR (SOJ) o 51 punktach}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
     \PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    
     \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{filtered3}
 \end{Verbatim}
 \end{tcolorbox}
 
     \hypertarget{dla-k103}{%
 \subsubsection{Dla k=10\^{}(3)}\label{dla-k103}}
 
-    \hypertarget{fcutoff500hz}{%
-\paragraph{fcutoff=500Hz}\label{fcutoff500hz}}
-
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{73}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{)}
-\end{Verbatim}
-\end{tcolorbox}
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_40_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \hypertarget{fcutoff1500hz}{%
-\paragraph{fcutoff=1500Hz}\label{fcutoff1500hz}}
+    \hypertarget{fcutoff300hz}{%
+\paragraph{fcutoff=300Hz}\label{fcutoff300hz}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{74}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{l+m+mi}{1500}\PY{p}{)}
-\end{Verbatim}
-\end{tcolorbox}
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_42_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \hypertarget{fcutoff2400hz}{%
-\paragraph{fcutoff=2400Hz}\label{fcutoff2400hz}}
-
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{75}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}1}\PY{p}{,} \PY{l+m+mi}{2400}\PY{p}{)}
-\end{Verbatim}
-\end{tcolorbox}
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_44_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \hypertarget{dla-k104}{%
-\subsubsection{Dla k=10\^{}(4)}\label{dla-k104}}
-
-    \hypertarget{fcutoff500}{%
-\paragraph{fcutoff=500}\label{fcutoff500}}
-
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{76}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{)}
-\end{Verbatim}
-\end{tcolorbox}
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_47_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \hypertarget{fcutoff1500}{%
-\paragraph{fcutoff=1500}\label{fcutoff1500}}
-
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{77}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{,} \PY{l+m+mi}{1500}\PY{p}{)}
-\end{Verbatim}
-\end{tcolorbox}
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_49_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \hypertarget{fcutoff2400}{%
-\paragraph{fcutoff=2400}\label{fcutoff2400}}
-
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{78}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}2}\PY{p}{,} \PY{l+m+mi}{2400}\PY{p}{)}
+\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k3\PYZus{}fc300} \PY{o}{=} \PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{l+m+mi}{300}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k3\PYZus{}fc300}\PY{p}{,} \PY{n}{k\PYZus{}3}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -1067,46 +1306,64 @@ parametrach}\label{przeprowadziux107-filtracjux119-danych-z-wykorzystaniem-filtr
     \end{center}
     { \hspace*{\fill} \\}
     
-    \hypertarget{dla-k105}{%
-\subsubsection{Dla k=10\^{}(5)}\label{dla-k105}}
-
-    \hypertarget{fcutoff500}{%
-\paragraph{fcutoff=500}\label{fcutoff500}}
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_51_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff900hz}{%
+\paragraph{fcutoff=900Hz}\label{fcutoff900hz}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{79}{\boxspacing}
+\prompt{In}{incolor}{75}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{)}
+\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k3\PYZus{}fc900} \PY{o}{=} \PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{l+m+mi}{900}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k3\PYZus{}fc900}\PY{p}{,} \PY{n}{k\PYZus{}3}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_54_0.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_53_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
-    \hypertarget{fcutoff1500}{%
-\paragraph{fcutoff=1500}\label{fcutoff1500}}
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_53_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff1600hz}{%
+\paragraph{fcutoff=1600Hz}\label{fcutoff1600hz}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{80}{\boxspacing}
+\prompt{In}{incolor}{76}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{l+m+mi}{1500}\PY{p}{)}
+\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k3\PYZus{}fc1600} \PY{o}{=} \PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{l+m+mi}{1600}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k3\PYZus{}fc1600}\PY{p}{,} \PY{n}{k\PYZus{}3}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_56_0.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_55_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
-    \hypertarget{fcutoff2400}{%
-\paragraph{fcutoff=2400}\label{fcutoff2400}}
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_55_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{dla-k104}{%
+\subsubsection{Dla k=10\^{}(4)}\label{dla-k104}}
+
+    \hypertarget{fcutoff300}{%
+\paragraph{fcutoff=300}\label{fcutoff300}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{81}{\boxspacing}
+\prompt{In}{incolor}{77}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{l+m+mi}{2400}\PY{p}{)}
+\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k4\PYZus{}fc300} \PY{o}{=} \PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{l+m+mi}{300}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k4\PYZus{}fc300}\PY{p}{,} \PY{n}{k\PYZus{}4}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -1115,46 +1372,64 @@ parametrach}\label{przeprowadziux107-filtracjux119-danych-z-wykorzystaniem-filtr
     \end{center}
     { \hspace*{\fill} \\}
     
-    \hypertarget{dla-k106}{%
-\subsubsection{Dla k=10\^{}(6)}\label{dla-k106}}
-
-    \hypertarget{fcutoff500}{%
-\paragraph{fcutoff=500}\label{fcutoff500}}
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_58_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff900}{%
+\paragraph{fcutoff=900}\label{fcutoff900}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{82}{\boxspacing}
+\prompt{In}{incolor}{78}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{)}
+\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k4\PYZus{}fc900} \PY{o}{=} \PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{l+m+mi}{900}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k4\PYZus{}fc900}\PY{p}{,} \PY{n}{k\PYZus{}4}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_61_0.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_60_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
-    \hypertarget{fcutoff1500}{%
-\paragraph{fcutoff=1500}\label{fcutoff1500}}
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_60_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff1600}{%
+\paragraph{fcutoff=1600}\label{fcutoff1600}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{83}{\boxspacing}
+\prompt{In}{incolor}{79}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{l+m+mi}{1500}\PY{p}{)}
+\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k4\PYZus{}fc1600} \PY{o}{=} \PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{l+m+mi}{1600}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k4\PYZus{}fc1600}\PY{p}{,} \PY{n}{k\PYZus{}4}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_63_0.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_62_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
-    \hypertarget{fcutoff2400}{%
-\paragraph{fcutoff=2400}\label{fcutoff2400}}
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_62_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{dla-k105}{%
+\subsubsection{Dla k=10\^{}(5)}\label{dla-k105}}
+
+    \hypertarget{fcutoff300}{%
+\paragraph{fcutoff=300}\label{fcutoff300}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{84}{\boxspacing}
+\prompt{In}{incolor}{80}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{l+m+mi}{2400}\PY{p}{)}
+\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k5\PYZus{}fc300} \PY{o}{=} \PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{,} \PY{l+m+mi}{300}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k5\PYZus{}fc300}\PY{p}{,} \PY{n}{k\PYZus{}5}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -1163,38 +1438,514 @@ parametrach}\label{przeprowadziux107-filtracjux119-danych-z-wykorzystaniem-filtr
     \end{center}
     { \hspace*{\fill} \\}
     
-    \hypertarget{dla-k107}{%
-\paragraph{Dla k=10\^{}(7)}\label{dla-k107}}
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_65_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff900}{%
+\paragraph{fcutoff=900}\label{fcutoff900}}
 
-    \hypertarget{fcutoff500}{%
-\paragraph{fcutoff=500}\label{fcutoff500}}
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{81}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k5\PYZus{}fc900} \PY{o}{=} \PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{,} \PY{l+m+mi}{900}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k5\PYZus{}fc900}\PY{p}{,} \PY{n}{k\PYZus{}5}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_67_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_67_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff1600}{%
+\paragraph{fcutoff=1600}\label{fcutoff1600}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{82}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k5\PYZus{}fc1600} \PY{o}{=} \PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{,} \PY{l+m+mi}{1600}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k5\PYZus{}fc1600}\PY{p}{,} \PY{n}{k\PYZus{}5}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_69_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_69_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{dla-k106}{%
+\subsubsection{Dla k=10\^{}(6)}\label{dla-k106}}
+
+    \hypertarget{fcutoff300}{%
+\paragraph{fcutoff=300}\label{fcutoff300}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{83}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k6\PYZus{}fc300} \PY{o}{=} \PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}6}\PY{p}{,} \PY{l+m+mi}{300}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k6\PYZus{}fc300}\PY{p}{,} \PY{n}{k\PYZus{}6}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_72_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_72_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff900}{%
+\paragraph{fcutoff=900}\label{fcutoff900}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{84}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k6\PYZus{}fc900} \PY{o}{=} \PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}6}\PY{p}{,} \PY{l+m+mi}{900}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k6\PYZus{}fc900}\PY{p}{,} \PY{n}{k\PYZus{}6}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_74_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_74_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff1600}{%
+\paragraph{fcutoff=1600}\label{fcutoff1600}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{85}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{c+c1}{\PYZsh{} filtration(samples\PYZus{}k\PYZus{}5, 500)}
+\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k6\PYZus{}fc1600} \PY{o}{=} \PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}6}\PY{p}{,} \PY{l+m+mi}{1600}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k6\PYZus{}fc1600}\PY{p}{,} \PY{n}{k\PYZus{}6}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
-    \hypertarget{fcutoff1500}{%
-\paragraph{fcutoff=1500}\label{fcutoff1500}}
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_76_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_76_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{dla-k107}{%
+\paragraph{Dla k=10\^{}(7)}\label{dla-k107}}
+
+    \hypertarget{fcutoff300}{%
+\paragraph{fcutoff=300}\label{fcutoff300}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{86}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{c+c1}{\PYZsh{} filtration(samples\PYZus{}k\PYZus{}5, 1500)}
+\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k7\PYZus{}fc300} \PY{o}{=} \PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}7}\PY{p}{,} \PY{l+m+mi}{300}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k7\PYZus{}fc300}\PY{p}{,} \PY{n}{k\PYZus{}7}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
-    \hypertarget{fcutoff2400}{%
-\paragraph{fcutoff=2400}\label{fcutoff2400}}
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_79_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_79_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff900}{%
+\paragraph{fcutoff=900}\label{fcutoff900}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{87}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{c+c1}{\PYZsh{} filtration(samples\PYZus{}k\PYZus{}5, 2400)}
+\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k7\PYZus{}fc900} \PY{o}{=} \PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}7}\PY{p}{,} \PY{l+m+mi}{900}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k7\PYZus{}fc900}\PY{p}{,} \PY{n}{k\PYZus{}7}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_81_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_81_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{fcutoff1600}{%
+\paragraph{fcutoff=1600}\label{fcutoff1600}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{88}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k7\PYZus{}fc1600} \PY{o}{=} \PY{n}{filtration}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}7}\PY{p}{,} \PY{l+m+mi}{1600}\PY{p}{)}
+\PY{n}{display\PYZus{}hist}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k7\PYZus{}fc1600}\PY{p}{,} \PY{n}{k\PYZus{}7}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_83_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_83_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{obliczyux107-gux119stoux15bux107-prawdopodobieux144stwa-dystrybuantux119-a-teux17c-wartoux15bux107-oczekiwanux105-wariancjux119-i-funkcjux119-kowariancyjnux105-sygnaux142u-wyjux15bciowego.-poruxf3wnaux107-wyniki-z-p-2.}{%
+\subsection{4. Obliczyć gęstość prawdopodobieństwa, dystrybuantę, a też
+wartość oczekiwaną, wariancję i funkcję kowariancyjną sygnału
+wyjściowego. Porównać wyniki z p
+2.}\label{obliczyux107-gux119stoux15bux107-prawdopodobieux144stwa-dystrybuantux119-a-teux17c-wartoux15bux107-oczekiwanux105-wariancjux119-i-funkcjux119-kowariancyjnux105-sygnaux142u-wyjux15bciowego.-poruxf3wnaux107-wyniki-z-p-2.}}
+
+    \hypertarget{obliczenie-gux119stoux15bci-prawdopodobieux144stwa}{%
+\subsubsection{Obliczenie gęstości
+prawdopodobieństwa}\label{obliczenie-gux119stoux15bci-prawdopodobieux144stwa}}
+
+\[ f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}} \]
+
+Po zastosowaniu filtru dolnoprzepustowego FIR na sygnale wyjściowym,
+gęstość prawdopodobieństwa uległa zmianie w porównaniu do szumu białego.
+Wartości sygnału wyjściowego skupiają się wokół wartości oczekiwanej, a
+rozkład jest bardziej skoncentrowany.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{89}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig\PYZus{}2}\PY{p}{,} \PY{n}{axarr\PYZus{}2} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{fig\PYZus{}2}\PY{o}{.}\PY{n}{set\PYZus{}figheight}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{fig\PYZus{}2}\PY{o}{.}\PY{n}{set\PYZus{}figwidth}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{fig\PYZus{}2}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Gęstość prawdopodobieństwa dla różnego k przed filtracją}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
+
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(3)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(4)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(5)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}6}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}6}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(6)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}7}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}7}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(7)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}visible}\PY{p}{(}\PY{k+kc}{False}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Tight layout often produces nice results}
+\PY{c+c1}{\PYZsh{} but requires the title to be spaced accordingly}
+\PY{n}{fig\PYZus{}2}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{fig\PYZus{}2}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{0.92}\PY{p}{)}
+
+\PY{n}{fig\PYZus{}1}\PY{p}{,} \PY{n}{axarr\PYZus{}1} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{fig\PYZus{}1}\PY{o}{.}\PY{n}{set\PYZus{}figheight}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{fig\PYZus{}1}\PY{o}{.}\PY{n}{set\PYZus{}figwidth}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{fig\PYZus{}1}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Gęstość prawdopodobieństwa dla różnego k po filtracji}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
+
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k3\PYZus{}fc1600}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k3\PYZus{}fc1600}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(3)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k4\PYZus{}fc1600}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k4\PYZus{}fc1600}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(4)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k5\PYZus{}fc1600}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k5\PYZus{}fc1600}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(5)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k6\PYZus{}fc1600}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k6\PYZus{}fc1600}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(6)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k7\PYZus{}fc1600}\PY{p}{)}\PY{p}{,} \PY{n}{probability\PYZus{}pdf}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k7\PYZus{}fc1600}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(7)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}visible}\PY{p}{(}\PY{k+kc}{False}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Tight layout often produces nice results}
+\PY{c+c1}{\PYZsh{} but requires the title to be spaced accordingly}
+\PY{n}{fig\PYZus{}1}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{fig\PYZus{}1}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{0.92}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_86_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_86_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{obliczenie-dystrybuanty}{%
+\subsubsection{Obliczenie dystrybuanty}\label{obliczenie-dystrybuanty}}
+
+\[ F(x) = \frac{1}{2}\left[1 + \operatorname{erf}\left(\frac{x-\mu}{\sigma\sqrt{2}}\right)\right] \]
+
+Dystrybuanta sygnału wyjściowego również różni się od dystrybuanty szumu
+białego. Po zastosowaniu filtru dolnoprzepustowego FIR, dystrybuanta
+staje się bardziej ``płaska'' i gładka, co wskazuje na redukcję wysokich
+częstotliwości i wygładzenie sygnału.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{90}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Tight layout often produces nice results}
+\PY{c+c1}{\PYZsh{} but requires the title to be spaced accordingly}
+\PY{n}{fig\PYZus{}1}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{fig\PYZus{}1}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{0.92}\PY{p}{)}
+
+\PY{n}{fig\PYZus{}2}\PY{p}{,} \PY{n}{axarr\PYZus{}2} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{fig\PYZus{}2}\PY{o}{.}\PY{n}{set\PYZus{}figheight}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{fig\PYZus{}2}\PY{o}{.}\PY{n}{set\PYZus{}figwidth}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{fig\PYZus{}2}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Dystrybuanta dla różnego k}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
+
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(3)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(4)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}5}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(5)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}6}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}6}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(6)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}7}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}7}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(7)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}visible}\PY{p}{(}\PY{k+kc}{False}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Tight layout often produces nice results}
+\PY{c+c1}{\PYZsh{} but requires the title to be spaced accordingly}
+\PY{n}{fig\PYZus{}2}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{fig\PYZus{}2}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{0.92}\PY{p}{)}
+
+\PY{n}{fig\PYZus{}1}\PY{p}{,} \PY{n}{axarr\PYZus{}1} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{fig\PYZus{}1}\PY{o}{.}\PY{n}{set\PYZus{}figheight}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{fig\PYZus{}1}\PY{o}{.}\PY{n}{set\PYZus{}figwidth}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{fig\PYZus{}1}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Dystrybuanta dla różnego k po filtracji}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
+
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k3\PYZus{}fc1600}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k3\PYZus{}fc1600}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(3)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k4\PYZus{}fc1600}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k4\PYZus{}fc1600}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(4)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k5\PYZus{}fc1600}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k5\PYZus{}fc1600}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(5)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k6\PYZus{}fc1600}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k6\PYZus{}fc1600}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(6)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k7\PYZus{}fc1600}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}cdf}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k7\PYZus{}fc1600}\PY{p}{)}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(7)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}visible}\PY{p}{(}\PY{k+kc}{False}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_88_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_88_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{obliczenie-wartoux15bci-oczekiwanej}{%
+\subsubsection{Obliczenie wartości
+oczekiwanej}\label{obliczenie-wartoux15bci-oczekiwanej}}
+
+\[ E(X) = \int_{-\infty}^{\infty} x f(x) dx \]
+
+Wartość oczekiwana sygnału wyjściowego po filtracji jest zbliżona do
+wartości oczekiwanej szumu białego, jednak może ulec nieznacznym
+przesunięciom ze względu na charakterystykę filtru.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{91}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(3)}
+\PY{n}{expected\PYZus{}value\PYZus{}k1\PYZus{}after\PYZus{}filtration} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k3\PYZus{}fc1600}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
+\PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(4)}
+\PY{n}{expected\PYZus{}value\PYZus{}k2\PYZus{}after\PYZus{}filtration} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k4\PYZus{}fc1600}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
+\PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(5)}
+\PY{n}{expected\PYZus{}value\PYZus{}k3\PYZus{}after\PYZus{}filtration} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k5\PYZus{}fc1600}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
+\PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(6)}
+\PY{n}{expected\PYZus{}value\PYZus{}k4\PYZus{}after\PYZus{}filtration} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k6\PYZus{}fc1600}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
+\PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(7)}
+\PY{n}{expected\PYZus{}value\PYZus{}k5\PYZus{}after\PYZus{}filtration} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k7\PYZus{}fc1600}\PY{p}{)}\PY{o}{.}\PY{n}{mean}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{obliczenie-wariancji}{%
+\subsubsection{Obliczenie wariancji}\label{obliczenie-wariancji}}
+
+\[ \operatorname{Var}(X) = E\left[(X - E(X))^2\right] = \int_{-\infty}^{\infty} (x - E(X))^2 f(x) dx \]
+
+Wariancja sygnału wyjściowego jest mniejsza niż wariancja szumu białego.
+Filtr dolnoprzepustowy FIR redukuje wysokie częstotliwości, co prowadzi
+do zmniejszenia zmienności sygnału i zmniejszenia wariancji.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{92}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(3)}
+\PY{n}{variance\PYZus{}k1\PYZus{}after\PYZus{}filtration} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k3\PYZus{}fc1600}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
+\PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(4)}
+\PY{n}{variance\PYZus{}k2\PYZus{}after\PYZus{}filtration} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k4\PYZus{}fc1600}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
+\PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(5)}
+\PY{n}{variance\PYZus{}k3\PYZus{}after\PYZus{}filtration} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k5\PYZus{}fc1600}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
+\PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(6)}
+\PY{n}{variance\PYZus{}k4\PYZus{}after\PYZus{}filtration} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k6\PYZus{}fc1600}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
+\PY{c+c1}{\PYZsh{}Dla k=10\PYZca{}(7)}
+\PY{n}{variance\PYZus{}k5\PYZus{}after\PYZus{}filtration} \PY{o}{=} \PY{n}{describe}\PY{p}{(}\PY{n}{noise\PYZus{}after\PYZus{}filtration\PYZus{}k7\PYZus{}fc1600}\PY{p}{)}\PY{o}{.}\PY{n}{variance}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Podsumowanie obliczeń wartości oczekiwanej oraz kowariancji względem
+różnych k
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{93}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{dict} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZca{}(3)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZca{}(4)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZca{}(5)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZca{}(6)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZca{}(7)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{wartość oczekiwana}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{p}{[}\PY{n}{expected\PYZus{}value\PYZus{}k1}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k2}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k3}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k4}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k5}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{wariancja}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{p}{[}\PY{n}{variance\PYZus{}k1}\PY{p}{,} \PY{n}{variance\PYZus{}k2}\PY{p}{,} \PY{n}{variance\PYZus{}k3}\PY{p}{,} \PY{n}{variance\PYZus{}k4}\PY{p}{,} \PY{n}{variance\PYZus{}k5}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{wartość oczekiwana po filtracji}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{p}{[}\PY{n}{expected\PYZus{}value\PYZus{}k1\PYZus{}after\PYZus{}filtration}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k2\PYZus{}after\PYZus{}filtration}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k3\PYZus{}after\PYZus{}filtration}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k4\PYZus{}after\PYZus{}filtration}\PY{p}{,} \PY{n}{expected\PYZus{}value\PYZus{}k5\PYZus{}after\PYZus{}filtration}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{wariancja po filtracji}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{p}{[}\PY{n}{variance\PYZus{}k1\PYZus{}after\PYZus{}filtration}\PY{p}{,} \PY{n}{variance\PYZus{}k2\PYZus{}after\PYZus{}filtration}\PY{p}{,} \PY{n}{variance\PYZus{}k3\PYZus{}after\PYZus{}filtration}\PY{p}{,} \PY{n}{variance\PYZus{}k4\PYZus{}after\PYZus{}filtration}\PY{p}{,} \PY{n}{variance\PYZus{}k5\PYZus{}after\PYZus{}filtration}\PY{p}{]}\PY{p}{\PYZcb{}}
+
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n+nb}{dict}\PY{p}{)}
+
+\PY{n}{df}\PY{o}{.}\PY{n}{style}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{93}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<pandas.io.formats.style.Styler at 0x1e1841c61a0>
+\end{Verbatim}
+\end{tcolorbox}
+
+\input{./tables/table_2.tex}
+        
+    \hypertarget{obliczenie-funkcji-kowariancyjnej}{%
+\subsubsection{Obliczenie funkcji
+kowariancyjnej}\label{obliczenie-funkcji-kowariancyjnej}}
+
+Macierz kowariancji sygnału wyjściowego może różnić się od macierzy
+kowariancji szumu białego. Filtracja dolnoprzepustowa wpływa na
+korelację między próbkami sygnału, co może prowadzić do zmiany
+wzajemnego wpływu próbek na siebie.
+
+\[ \operatorname{Cov}(X_i, X_j) = \begin{cases} \sigma^2 & i = j \\ 0 & i \neq j \end{cases} \]
+
+gdzie X\_i i X\_j to próbki szumu białego, a σ\^{}2 to wariancja szumu
+białego.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{94}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{axarr} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figheight}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figwidth}\PY{p}{(}\PY{l+m+mi}{22}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Funkcja kowariancyjna dla różnego k przed filtracją}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
+
+\PY{n}{cov\PYZus{}k\PYZus{}3} \PY{o}{=} \PY{n}{covariance}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{n}{k\PYZus{}3}\PY{p}{)}
+\PY{n}{cov\PYZus{}k\PYZus{}4} \PY{o}{=} \PY{n}{covariance}\PY{p}{(}\PY{n}{samples\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{n}{k\PYZus{}4}\PY{p}{)}
+
+\PY{n}{x\PYZus{}k\PYZus{}3} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k\PYZus{}3}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{k\PYZus{}3}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{)}
+\PY{n}{x\PYZus{}k\PYZus{}4} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k\PYZus{}4}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{k\PYZus{}4}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}4}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Zwiększenie wartości na osi Y}
+\PY{n}{y\PYZus{}max\PYZus{}k\PYZus{}3} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}3}\PY{p}{)} \PY{o}{*} \PY{l+m+mf}{1.2}
+\PY{n}{y\PYZus{}max\PYZus{}k\PYZus{}4} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}4}\PY{p}{)} \PY{o}{*} \PY{l+m+mf}{1.2}
+
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{n}{cov\PYZus{}k\PYZus{}3}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(3)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k\PYZus{}3}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{k\PYZus{}3}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}3}\PY{p}{)}\PY{p}{,} \PY{n}{y\PYZus{}max\PYZus{}k\PYZus{}3}\PY{p}{)}
+
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{n}{cov\PYZus{}k\PYZus{}4}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(4)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k\PYZus{}4}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{500}\PY{p}{,} \PY{n}{k\PYZus{}4}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{500}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{0.92}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{n}{fig}\PY{p}{,} \PY{n}{axarr} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figheight}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{set\PYZus{}figwidth}\PY{p}{(}\PY{l+m+mi}{22}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Funkcja kowariancyjna dla różnego k po filtracji}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Wygładzanie funkcji kowariancji za pomocą filtru dolnoprzepustowego Butterworth}
+\PY{n}{order} \PY{o}{=} \PY{l+m+mi}{11}  \PY{c+c1}{\PYZsh{} Stopień filtru}
+\PY{n}{cutoff\PYZus{}freq} \PY{o}{=} \PY{l+m+mf}{0.1}  \PY{c+c1}{\PYZsh{} Częstotliwość odcięcia}
+\PY{n}{b}\PY{p}{,} \PY{n}{a} \PY{o}{=} \PY{n}{butter}\PY{p}{(}\PY{n}{order}\PY{p}{,} \PY{n}{cutoff\PYZus{}freq}\PY{p}{,} \PY{n}{btype}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{low}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{analog}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+
+\PY{n}{cov\PYZus{}k\PYZus{}3\PYZus{}smooth} \PY{o}{=} \PY{n}{filtfilt}\PY{p}{(}\PY{n}{b}\PY{p}{,} \PY{n}{a}\PY{p}{,} \PY{n}{cov\PYZus{}k\PYZus{}3}\PY{p}{)}
+\PY{n}{cov\PYZus{}k\PYZus{}4\PYZus{}smooth} \PY{o}{=} \PY{n}{filtfilt}\PY{p}{(}\PY{n}{b}\PY{p}{,} \PY{n}{a}\PY{p}{,} \PY{n}{cov\PYZus{}k\PYZus{}4}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Zwiększenie wartości na osi Y}
+\PY{n}{y\PYZus{}max\PYZus{}k\PYZus{}3} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}3\PYZus{}smooth}\PY{p}{)} \PY{o}{*} \PY{l+m+mf}{1.2}
+\PY{n}{y\PYZus{}max\PYZus{}k\PYZus{}4} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}4\PYZus{}smooth}\PY{p}{)} \PY{o}{*} \PY{l+m+mf}{1.2}
+
+\PY{n}{x\PYZus{}k\PYZus{}3} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k\PYZus{}3}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{k\PYZus{}3}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}3\PYZus{}smooth}\PY{p}{)}\PY{p}{)}
+\PY{n}{x\PYZus{}k\PYZus{}4} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k\PYZus{}4}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{k\PYZus{}4}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}4\PYZus{}smooth}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}k\PYZus{}3}\PY{p}{,} \PY{n}{cov\PYZus{}k\PYZus{}3\PYZus{}smooth}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(3)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k\PYZus{}3}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{20}\PY{p}{,} \PY{n}{k\PYZus{}3}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}3\PYZus{}smooth}\PY{p}{)}\PY{p}{,} \PY{n}{y\PYZus{}max\PYZus{}k\PYZus{}3}\PY{p}{)}
+
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}k\PYZus{}4}\PY{p}{,} \PY{n}{cov\PYZus{}k\PYZus{}4\PYZus{}smooth}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k=10\PYZca{}(4)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k\PYZus{}4}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{20}\PY{p}{,} \PY{n}{k\PYZus{}4}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{axarr}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{cov\PYZus{}k\PYZus{}4\PYZus{}smooth}\PY{p}{)}\PY{p}{,} \PY{n}{y\PYZus{}max\PYZus{}k\PYZus{}4}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{0.92}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_96_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_96_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Ogólne wnioski:
+
+Filtracja dolnoprzepustowa FIR może być użytecznym narzędziem w
+przetwarzaniu sygnałów, szczególnie w przypadkach, gdzie występuje szum
+o wysokich częstotliwościach lub gdy zależy nam na wygładzeniu sygnału i
+redukcji zmienności. Jest to popularna metoda w dziedzinach takich jak
+przetwarzanie sygnałów audio, obrazów, telekomunikacji, a także w
+analizie danych i filtracji szumów.
 
 
     % Add a bibliography block to the postdoc
