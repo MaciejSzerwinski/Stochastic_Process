@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1687124808 "g:/Projekty/Stochastic_Process/main.tex" "main.pdf" "main" 1687124815 0
+["pdflatex"] 1687126301 "g:/Projekty/Stochastic_Process/main.tex" "main.pdf" "main" 1687126308 0
   "C:/Program Files/MiKTeX/fonts/tfm/jknappen/ec/ecbx1095.tfm" 993061956 3228 aacd2ac2d814480e4422ad7e830fd2d4 ""
   "C:/Program Files/MiKTeX/fonts/tfm/jknappen/ec/ecbx1200.tfm" 993061958 3200 b8d69bc738e5ef3e08cefeef3109ff56 ""
   "C:/Program Files/MiKTeX/fonts/tfm/jknappen/ec/ecbx1440.tfm" 993061960 3196 0b37fa3083e15c57cfa8c4ff52f2807a ""
@@ -221,10 +221,11 @@
   "C:/Users/maszy/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs10.tfm" 1680575027 688 37338d6ab346c2f1466b29e195316aa4 ""
   "C:/Users/maszy/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs5.tfm" 1680575028 684 3a51bd4fd9600428d5264cf25f04bb9a ""
   "C:/Users/maszy/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1680575949 23166558 fb7e13c2e4c51b4c1d60052a8e834db9 ""
-  "g:/Projekty/Stochastic_Process/main.tex" 1687124808 129486 1f5611aa8ba0660d150da2d3d2fe43a1 ""
-  "main.aux" 1687124814 11191 1add7d1432be79fc58e2f22dec385d85 "pdflatex"
-  "main.out" 1687124814 7191 da065f21dbd5719485d664c92ae8372c "pdflatex"
-  "main.tex" 1687124808 129486 1f5611aa8ba0660d150da2d3d2fe43a1 ""
+  "PBS_logo.png" 1687125267 84598 dcce137d14f406cef5df5d0189158f1c ""
+  "g:/Projekty/Stochastic_Process/main.tex" 1687126291 129756 8d3a67e24441bb4acf53d062babe8c99 ""
+  "main.aux" 1687126308 11191 f4213a05a78c98b30736b414852422ec "pdflatex"
+  "main.out" 1687126308 7191 da065f21dbd5719485d664c92ae8372c "pdflatex"
+  "main.tex" 1687126291 129756 8d3a67e24441bb4acf53d062babe8c99 ""
   "main_files/main_13_0.png" 1687124249 21396 523573ba96cb2a01f53dc75e47964b7b ""
   "main_files/main_16_0.png" 1687124249 23778 6984f2716298c43e67ea45d1760cea85 ""
   "main_files/main_19_0.png" 1687124249 24777 0ad0332fda3a68beb6cbed0b3e83048a ""
